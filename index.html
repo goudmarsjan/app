@@ -124,6 +124,9 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .how-to{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
 .how-item{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #59401f;border-radius:12px;background:#110d08;color:#e8dcc8;font-size:12px;line-height:1.3}
 .how-item b{font-size:20px}
+.required-name-box{max-width:560px;margin:0 auto 14px;padding:16px;border:2px solid #e1a62c;border-radius:15px;background:linear-gradient(135deg,#38240b,#150d06);box-shadow:0 0 18px #d9942540}
+.required-name-box h3{margin:0 0 7px;color:#ffda62;font-size:18px}
+.required-name-box p{margin:0 0 11px;color:#ead9bd;font-size:13px;line-height:1.45}
 .submit-box{margin:14px auto 0;max-width:510px;padding:16px;border:1px solid #8e601e;border-radius:15px;background:#160f08}
 .submit-box h3{margin:0 0 7px;color:#ffda62}
 .submit-box p{margin:0 0 11px;color:#cdbda7;font-size:12px;line-height:1.45}
@@ -300,6 +303,12 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
   <section class="page" id="page-game">
     <div class="tab-intro"><div class="eyebrow">DE GOUDMARSJAN PRESENTEERT</div><h1>GOLD <span>RUSH</span></h1><p>De mijnenafdaling. Verzamel goud, ontwijk de rode rotsen en probeer zo diep mogelijk te geraken.</p></div>
     <section class="panel game-panel">
+      <div class="required-name-box hidden" id="requiredNameBox">
+        <h3>⛏ Kies je mijnwerkersnaam</h3>
+        <p>Vul eerst je spelersnaam in. Zo verschijnt je score op het Gold Rush-scorebord onder jouw naam.</p>
+        <div class="submit-row"><input id="requiredPlayerName" maxlength="18" placeholder="Jouw gebruikersnaam" autocomplete="nickname" aria-label="Verplichte gebruikersnaam"><button class="gold-button" id="saveRequiredName">BEVESTIG NAAM</button></div>
+        <div class="status-message" id="requiredNameStatus"></div>
+      </div>
       <div class="game-panel-top"><h2>⛏ GOLD RUSH — DE MIJNENAFDALING</h2><p>Beweeg links en rechts om je mijnwerker te sturen.</p></div>
       <div class="game-frame" id="gameFrame">
         <img id="gamePreview" src="game-scene.png" alt="Gold Rush spelvoorbeeld">
@@ -323,7 +332,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       </div>
       <div class="how-to">
         <div class="how-item"><b>← →</b><span>Beweeg links en rechts</span></div>
-        <div class="how-item"><b>↓</b><span>Stap door naar het lagere niveau</span></div>
+        <div class="how-item"><b>↓</b><span>De mijn schuift vanzelf verder naar beneden</span></div>
         <div class="how-item"><b>🪙</b><span>Verzamel goud voor punten</span></div>
         <div class="how-item"><b>🟩</b><span>Veilige platformen</span></div>
         <div class="how-item"><b>🟥</b><span>Rode rotsen kosten een leven</span></div>
@@ -334,7 +343,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
         <div class="submit-row"><input id="playerName" maxlength="18" placeholder="Jouw spelersnaam" autocomplete="nickname"><button class="gold-button" id="submitScore">SCORE OPSLAAN</button></div>
         <div class="status-message" id="submitStatus"></div>
       </div>
-      <p class="disclaimer" id="gameStatus">Druk op start en begin aan je afdaling. Gebruik ↓ om door een platform te stappen. Je hebt drie levens.</p>
+      <p class="disclaimer" id="gameStatus">Kies eerst je gebruikersnaam. De mijn begint meteen te schuiven zodra je start. Je hebt drie levens.</p>
     </section>
   </section>
 
@@ -373,7 +382,7 @@ const OUNCE_TO_KG=32.1507466;
 let lastQuotes={gold:null,silver:null};
 let allScores=[];
 let scoreFilter="month";
-let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false,down:false},invulnerableUntil:0,damageFlash:0,nextPlatformId:1,lastSafePlatform:null,startY:0};
+let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false,down:false},invulnerableUntil:0,damageFlash:0,nextPlatformId:1,lastSafePlatform:null,startY:0,scrollSpeed:.72,elapsedFrames:0};
 let ctx=null,canvas=null,canvasScale=1;
 const savedName=localStorage.getItem("gm_player_name")||"";
 const quoteCache=(()=>{try{return JSON.parse(localStorage.getItem("gm_quote_cache")||"{}")}catch(e){return {}}})();
@@ -504,6 +513,7 @@ $("saveSettings").addEventListener("click",()=>{
  if(name&&(!/^[\p{L}\p{N} _.-]{2,18}$/u.test(name))){$("settingsStatus").textContent="Gebruik 2 tot 18 letters, cijfers, spaties, punten of streepjes.";return}
  localStorage.setItem("gm_player_name",name);
  localStorage.setItem("gm_sound",String($("soundToggle").checked));
+ syncRequiredNameGate();
  $("settingsStatus").textContent="Instellingen opgeslagen.";
  setTimeout(closeSettings,650);
 });
@@ -520,7 +530,7 @@ function resizeCanvas(){
 function buildWorld(){
  const width=canvas.clientWidth||900,h=canvas.clientHeight||520;
  game.score=0;game.depth=0;game.lives=3;game.camera=0;game.invulnerableUntil=0;game.damageFlash=0;
- game.nextPlatformId=1;game.platforms=[];game.coins=[];game.keys={left:false,right:false,down:false};
+ game.nextPlatformId=1;game.platforms=[];game.coins=[];game.keys={left:false,right:false,down:false};game.scrollSpeed=.72;game.elapsedFrames=0;
  const startPlatform={id:game.nextPlatformId++,x:width/2-90,y:Math.round(h*.43),w:180,h:20,type:"safe",rewarded:false};
  game.platforms.push(startPlatform);game.startY=startPlatform.y;
  game.lastSafePlatform={...startPlatform};
@@ -608,35 +618,51 @@ function gameStep(timestamp){
  if(!game.active||game.paused)return;
  const dt=Math.min((timestamp-game.lastTime)/16.67,2.2);game.lastTime=timestamp;
  const w=canvas.clientWidth||900,h=canvas.clientHeight||520,p=game.player;
+ game.elapsedFrames+=dt;
+ // The mine begins scrolling immediately and accelerates gradually.
+ game.scrollSpeed=Math.min(2.15,game.scrollSpeed+.00022*dt);
  const moveSpeed=Math.max(3.8,w*.006);
  if(game.keys.left)p.x-=moveSpeed*dt;
  if(game.keys.right)p.x+=moveSpeed*dt;
  p.x=Math.max(2,Math.min(w-p.w-2,p.x));
 
- // Drop through the current ledge when the player presses down.
+ // Down is a manual quick-drop; the automatic mine scroll also forces descent.
  if(game.keys.down&&p.grounded){
   p.grounded=false;p.groundPlatformId=null;p.y+=5;p.vy=2.2;game.keys.down=false;
  }
+
  if(p.grounded){
   const support=game.platforms.find(platform=>platform.id===p.groundPlatformId);
   if(!support||p.x+p.w<support.x+2||p.x>support.x+support.w-2){
    p.grounded=false;p.groundPlatformId=null;p.vy=.35;
   }else{
    p.y=support.y-p.h;p.vy=0;
+   // The current platform is carried upwards by the scrolling camera.
+   // Leave it behind before it disappears, then fall to the next ledge.
+   if(support.y-game.camera<=h*.32){
+    p.grounded=false;p.groundPlatformId=null;p.vy=.45;
+   }
   }
  }
+
  if(!p.grounded){
   const previousBottom=p.y+p.h;
   p.vy=Math.min(p.vy+.27*dt,8.5);
   p.y+=p.vy*dt;
   const newBottom=p.y+p.h;
   for(const platform of game.platforms){
+   if(platform.hit)continue;
    if(previousBottom<=platform.y&&newBottom>=platform.y&&p.x+p.w>platform.x+3&&p.x<platform.x+platform.w-3){
-    p.y=platform.y-p.h;p.vy=0;p.grounded=true;p.groundPlatformId=platform.id;
+    platform.hit=true;
+    p.y=platform.y-p.h;
     if(platform.type==="danger"){
-     if(timestamp>game.invulnerableUntil){game.lives--;game.invulnerableUntil=timestamp+1100;game.damageFlash=Date.now()+180}
+     if(timestamp>game.invulnerableUntil){
+      game.lives--;game.invulnerableUntil=timestamp+1100;game.damageFlash=Date.now()+180;
+     }
+     p.grounded=false;p.groundPlatformId=null;p.vy=1.35;
      if(game.lives<=0){finishGame();return}
     }else{
+     p.vy=0;p.grounded=true;p.groundPlatformId=platform.id;
      game.lastSafePlatform={...platform};
      if(platform.type==="gold"&&!platform.rewarded){game.score+=250;platform.rewarded=true}
     }
@@ -644,40 +670,74 @@ function gameStep(timestamp){
    }
   }
  }
- // Collectibles and platforms share world coordinates; scrolling only affects rendering.
+
+ // Coins and platforms use the same world coordinates; camera movement only affects drawing.
  for(const coin of game.coins){
-  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coin.y)<26){coin.got=true;game.score+=100}
+  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coin.y)<26){
+   coin.got=true;game.score+=100;
+  }
  }
- game.depth=Math.max(game.depth,Math.max(0,(p.y-game.startY)/5));
+ game.depth=Math.max(game.depth,Math.max(0,(game.camera+Math.max(0,p.y-h*.36))/5));
  game.score=Math.max(game.score,Math.floor(game.depth*12));
 
- // Camera follows the mineworker smoothly as he descends.
- const cameraTarget=Math.max(0,p.y-h*.53);
- if(cameraTarget>game.camera)game.camera+=(cameraTarget-game.camera)*Math.min(1,.18*dt);
+ // Scroll down even while the miner is standing; follow faster if he falls behind.
+ game.camera+=game.scrollSpeed*dt;
+ const followTarget=Math.max(0,p.y-h*.60);
+ if(followTarget>game.camera)game.camera+=(followTarget-game.camera)*Math.min(1,.22*dt);
 
- // New ledges are added below the screen; existing ledges never disappear.
+ // Add more ledges below the screen. Existing ledges remain until safely behind the camera.
  let bottom=game.platforms.reduce((max,platform)=>Math.max(max,platform.y),0);
  while(bottom<game.camera+h+700){bottom+=rand(94,122);addPlatform(bottom,w)}
  game.platforms=game.platforms.filter(platform=>platform.y>game.camera-260||platform.id===game.lastSafePlatform?.id);
  game.coins=game.coins.filter(coin=>coin.y>game.camera-120&&!coin.got);
 
- // A missed ledge costs one life and returns the player to the last safe ledge.
+ // A missed ledge costs a life and returns the miner to the last safe platform.
  if(p.y>game.camera+h+80){
   game.lives--;if(game.lives<=0){finishGame();return}
   const checkpoint=game.lastSafePlatform||game.platforms[0];
-  game.camera=Math.max(0,checkpoint.y-h*.53);
+  game.camera=Math.max(0,checkpoint.y-h*.60);
   p.x=Math.min(w-p.w-2,Math.max(2,checkpoint.x+checkpoint.w/2-p.w/2));
   p.y=checkpoint.y-p.h;p.vy=0;p.grounded=true;p.groundPlatformId=checkpoint.id;
   game.damageFlash=Date.now()+180;
  }
  drawGame();game.raf=requestAnimationFrame(gameStep);
 }
+function validPlayerName(name){
+ return /^[\\p{L}\\p{N} _.-]{2,18}$/u.test(String(name||"").trim());
+}
+function syncRequiredNameGate(){
+ const name=localStorage.getItem("gm_player_name")||"";
+ $("requiredNameBox").classList.toggle("hidden",validPlayerName(name));
+}
+function saveRequiredName(){
+ const name=$("requiredPlayerName").value.trim();
+ if(!validPlayerName(name)){
+  $("requiredNameStatus").textContent="Gebruik 2 tot 18 letters, cijfers, spaties, punten of streepjes.";
+  $("requiredPlayerName").focus();return;
+ }
+ localStorage.setItem("gm_player_name",name);
+ $("requiredNameStatus").textContent="";
+ $("requiredNameBox").classList.add("hidden");
+ $("playerName").value=name;
+ startGame();
+}
+$("saveRequiredName").addEventListener("click",saveRequiredName);
+$("requiredPlayerName").addEventListener("keydown",event=>{if(event.key==="Enter")saveRequiredName()});
 function startGame(){
+ const currentName=localStorage.getItem("gm_player_name")||"";
+ if(!validPlayerName(currentName)){
+  $("requiredNameBox").classList.remove("hidden");
+  $("requiredNameStatus").textContent="Je hebt een gebruikersnaam nodig om mee te spelen en op het scorebord te verschijnen.";
+  $("requiredPlayerName").value=currentName;
+  $("requiredPlayerName").focus();
+  return;
+ }
+ $("requiredNameBox").classList.add("hidden");
  cancelAnimationFrame(game.raf);buildWorld();
  game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
  $("gameFrame").classList.add("running");$("submitBox").classList.add("hidden");
  $("startGame").textContent="⛏ AFDALING BEZIG";$("startGame").disabled=true;$("restartGame").disabled=true;
- $("gameStatus").textContent="Stap met ↓ naar een lager platform. Beweeg met ← en → en verzamel goud onderweg.";
+ $("gameStatus").textContent="De mijn beweegt vanaf de start. Blijf afdalen, stuur met ← en → en gebruik ↓ om sneller te zakken.";
  drawGame();game.raf=requestAnimationFrame(gameStep);
 }
 function finishGame(){
@@ -694,6 +754,7 @@ function pauseGame(){
  if(game.paused){cancelAnimationFrame(game.raf);drawGame()}
  else{game.lastTime=performance.now();game.raf=requestAnimationFrame(gameStep)}
 }
+syncRequiredNameGate();
 $("startGame").addEventListener("click",startGame);
 $("restartGame").addEventListener("click",startGame);
 $("pauseGame").addEventListener("click",pauseGame);
@@ -733,7 +794,9 @@ $("submitScore").addEventListener("click",async()=>{
   });
   if(!response.ok){const detail=await response.text();throw new Error(detail||"Opslaan is mislukt")}
   localStorage.setItem("gm_player_name",name);
-  $("submitStatus").textContent="Score opgeslagen! Je staat nu op het Gold Rush-scorebord.";
+  localStorage.setItem("gm_player_name",name);
+  $("requiredPlayerName").value=name;
+  $("submitStatus").textContent="Score opgeslagen onder de naam "+name+". Je staat nu op het Gold Rush-scorebord.";
   button.textContent="OPGESLAGEN";$("submitBox").classList.add("hidden");
   loadScores();
  }catch(error){$("submitStatus").textContent="Opslaan lukte niet. Controleer je verbinding en probeer opnieuw."}
