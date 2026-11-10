@@ -537,6 +537,62 @@ $("saveSettings").addEventListener("click",()=>{
 });
 $("profileName").addEventListener("keydown",e=>{if(e.key==="Enter")$("saveSettings").click()});
 
+// One-tap installation for browsers that support it, with clear steps on iPhone/iPad.
+let deferredInstallPrompt=null;
+const installButton=$("installApp"),installBackdrop=$("installBackdrop");
+const isIOSDevice=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const isStandaloneApp=()=>window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+function installedButton(){
+ installButton.disabled=true;
+ installButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>APP GEÏNSTALLEERD</span>';
+}
+function refreshInstallButton(){
+ if(isStandaloneApp()){installedButton();return}
+ installButton.disabled=false;
+ installButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg><span>DOWNLOAD APP</span>';
+}
+function closeInstallHelp(){installBackdrop.classList.remove("open")}
+function showInstallHelp(){
+ const ua=navigator.userAgent;
+ const inApp=/FBAN|FBAV|Instagram|TikTok|Line|Snapchat/i.test(ua);
+ let steps="";
+ if(inApp)steps+='<p><strong>Open eerst deze pagina in je gewone browser.</strong> Kies in het menu “Openen in browser” of “Open in Safari/Chrome”.</p>';
+ if(isIOSDevice()){
+  steps+='<p>Je gebruikt een iPhone of iPad. Je hoeft niets uit de App Store te downloaden.</p><ol><li>Open deze pagina in <strong>Safari</strong>.</li><li>Tik op <strong>Deel</strong> — het vierkantje met het pijltje omhoog.</li><li>Kies <strong>Zet op beginscherm</strong>.</li><li>Tik op <strong>Voeg toe</strong>.</li></ol><div class="install-tip">Daarna staat De Goudmarsjan als een gewoon app-icoon op je beginscherm.</div>';
+ }else if(/Android/i.test(ua)){
+  steps+='<p>Je gebruikt Android. Volg deze stappen:</p><ol><li>Tik rechtsboven in Chrome op de drie puntjes <strong>⋮</strong>.</li><li>Kies <strong>App installeren</strong> of <strong>Toevoegen aan startscherm</strong>.</li><li>Bevestig met <strong>Installeren</strong>.</li></ol><div class="install-tip">Samsung Internet: menu → <strong>Pagina toevoegen aan</strong> → <strong>Startscherm</strong>.</div>';
+ }else{
+  steps+='<p>Je gebruikt een computer. Volg deze stappen:</p><ol><li>Kijk rechts in de adresbalk naar het <strong>installatie-icoon</strong>.</li><li>Of open het browsermenu <strong>⋮</strong> en kies <strong>De Goudmarsjan installeren</strong>.</li><li>Bevestig met <strong>Installeren</strong>.</li></ol><div class="install-tip">In Microsoft Edge: <strong>Apps</strong> → <strong>Deze site als app installeren</strong>.</div>';
+ }
+ $("installInstructions").innerHTML=steps;
+ installBackdrop.classList.add("open");
+}
+async function handleInstallClick(){
+ if(isStandaloneApp())return;
+ if(deferredInstallPrompt){
+  const promptEvent=deferredInstallPrompt;
+  deferredInstallPrompt=null;
+  try{
+   await promptEvent.prompt();
+   const result=await promptEvent.userChoice;
+   if(result&&result.outcome==="accepted"){installedButton();return}
+  }catch(error){/* Show browser-specific steps if native install is unavailable. */}
+ }
+ showInstallHelp();
+}
+window.addEventListener("beforeinstallprompt",event=>{
+ event.preventDefault();deferredInstallPrompt=event;refreshInstallButton();
+});
+window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;installedButton();closeInstallHelp()});
+installButton.addEventListener("click",handleInstallClick);
+$("closeInstall").addEventListener("click",closeInstallHelp);
+$("installDone").addEventListener("click",closeInstallHelp);
+installBackdrop.addEventListener("click",event=>{if(event.target===installBackdrop)closeInstallHelp()});
+window.addEventListener("keydown",event=>{if(event.key==="Escape")closeInstallHelp()});
+refreshInstallButton();
+if(window.matchMedia("(display-mode: standalone)").addEventListener){
+ window.matchMedia("(display-mode: standalone)").addEventListener("change",refreshInstallButton);
+}
 canvas=$("gameCanvas");ctx=canvas.getContext("2d");
 const rand=(a,b)=>a+Math.random()*(b-a);
 function resizeCanvas(){
