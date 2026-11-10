@@ -1,4 +1,4 @@
-const CACHE_NAME = "goudmarsjan-shell-v12";
+const CACHE_NAME = "goudmarsjan-shell-v13";
 const APP_FILES = [
   "/",
   "/index.html",
