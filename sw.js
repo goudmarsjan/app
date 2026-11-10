@@ -1,4 +1,4 @@
-const CACHE_NAME = "goudmarsjan-shell-v6";
+const CACHE_NAME = "goudmarsjan-shell-v7";
 const APP_FILES = [
   "/",
   "/index.html",
@@ -9,7 +9,9 @@ const APP_FILES = [
   "/goldrush-promo.png",
   "/treasure-cart.png",
   "/game-miner.png",
-  "/goldrush-title.png"
+  "/goldrush-title.png",
+  "/gold-bars.webp",
+  "/silver-bars.webp"
 ];
 
 self.addEventListener("install", event => {
