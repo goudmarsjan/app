@@ -382,7 +382,7 @@ const OUNCE_TO_KG=32.1507466;
 let lastQuotes={gold:null,silver:null};
 let allScores=[];
 let scoreFilter="month";
-let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false,down:false},invulnerableUntil:0,damageFlash:0,nextPlatformId:1,lastSafePlatform:null,startY:0,scrollSpeed:.72,elapsedFrames:0};
+let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false,down:false},invulnerableUntil:0,damageFlash:0,nextPlatformId:1,lastSafePlatform:null,startY:0,scrollSpeed:.72,elapsedFrames:0,nameConfirmedForRun:false};
 let ctx=null,canvas=null,canvasScale=1;
 const savedName=localStorage.getItem("gm_player_name")||"";
 const quoteCache=(()=>{try{return JSON.parse(localStorage.getItem("gm_quote_cache")||"{}")}catch(e){return {}}})();
@@ -706,8 +706,8 @@ function validPlayerName(name){
  return /^[\p{L}\p{N} _.-]{2,18}$/u.test(String(name||"").trim());
 }
 function syncRequiredNameGate(){
- const name=localStorage.getItem("gm_player_name")||"";
- $("requiredNameBox").classList.toggle("hidden",validPlayerName(name));
+ $("requiredNameBox").classList.add("hidden");
+ $("requiredPlayerName").value=localStorage.getItem("gm_player_name")||"";
 }
 function saveRequiredName(){
  const name=$("requiredPlayerName").value.trim();
@@ -719,19 +719,20 @@ function saveRequiredName(){
  $("requiredNameStatus").textContent="";
  $("requiredNameBox").classList.add("hidden");
  $("playerName").value=name;
+ game.nameConfirmedForRun=true;
  startGame();
 }
 $("saveRequiredName").addEventListener("click",saveRequiredName);
 $("requiredPlayerName").addEventListener("keydown",event=>{if(event.key==="Enter")saveRequiredName()});
 function startGame(){
- const currentName=localStorage.getItem("gm_player_name")||"";
- if(!validPlayerName(currentName)){
+ if(!game.nameConfirmedForRun){
   $("requiredNameBox").classList.remove("hidden");
-  $("requiredNameStatus").textContent="Je hebt een gebruikersnaam nodig om mee te spelen en op het scorebord te verschijnen.";
-  $("requiredPlayerName").value=currentName;
+  $("requiredNameStatus").textContent="Bevestig je spelersnaam voor deze afdaling. Je score wordt straks onder deze naam opgeslagen.";
+  $("requiredPlayerName").value=localStorage.getItem("gm_player_name")||"";
   $("requiredPlayerName").focus();
   return;
  }
+ game.nameConfirmedForRun=false;
  $("requiredNameBox").classList.add("hidden");
  cancelAnimationFrame(game.raf);buildWorld();
  game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
