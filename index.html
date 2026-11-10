@@ -703,7 +703,7 @@ function gameStep(timestamp){
  drawGame();game.raf=requestAnimationFrame(gameStep);
 }
 function validPlayerName(name){
- return /^[\\p{L}\\p{N} _.-]{2,18}$/u.test(String(name||"").trim());
+ return /^[\p{L}\p{N} _.-]{2,18}$/u.test(String(name||"").trim());
 }
 function syncRequiredNameGate(){
  const name=localStorage.getItem("gm_player_name")||"";
