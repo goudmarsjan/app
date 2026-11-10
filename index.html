@@ -454,23 +454,30 @@ async function loadPrices(){
  const ids=["homeUpdate","ratesUpdated"];
  ids.forEach(id=>$(id).textContent="Koersen ophalen…");
  try{
-  // XAUS: een gecombineerde live feed voor goud en zilver, zonder API-key.
-  // De API levert goud rechtstreeks in EUR/kg; zilver wordt omgerekend met
-  // dezelfde actuele EUR-wisselkoers uit exact dezelfde API-respons.
-  const response=await fetch("https://xaus.com/api/v1/spot?currency=EUR&unit=kg&compact=1",{cache:"no-store"});
-  if(!response.ok)throw new Error("Koersbron niet bereikbaar ("+response.status+")");
-  const data=await response.json();
-  const gold=Number(data.xau?.price);
-  const silverUsdOunce=Number(data.silver_usd_oz);
-  const usdToEur=Number(data.fx_rate);
-  const age=Number(data.data_state?.age_seconds);
-  if(data.data_state?.status!=="fresh"||!Number.isFinite(age)||age>180)throw new Error("De goudkoers is niet actueel");
-  if(data.fx_stale===true)throw new Error("De wisselkoers is verouderd");
-  if(![gold,silverUsdOunce,usdToEur].every(v=>Number.isFinite(v)&&v>0))throw new Error("Ongeldige koersgegevens");
-  // XAUS silver is USD per troy ounce; convert with the feed's EUR FX rate.
-  const silver=silverUsdOunce*usdToEur*OUNCE_TO_KG;
-  const updatedAt=Date.parse(data.price_as_of||data.updated_at||"");
-  if(!Number.isFinite(updatedAt)||Date.now()-updatedAt>180000||updatedAt>Date.now()+60000)throw new Error("Koersbron gaf een ongeldige tijdstempel");
+  // XAU/XAG komen in USD uit XAUS. EURUSD=X van Yahoo geeft USD per EUR.
+  // Door te delen door EURUSD gebruiken beide metalen dezelfde verse FX-koers.
+  const yahooUrl="https://query1.finance.yahoo.com/v8/finance/chart/EURUSD%3DX?range=1d&interval=1m";
+  const [metalResponse,fxResponse]=await Promise.all([
+   fetch("https://xaus.com/api/v1/spot?compact=1",{cache:"no-store"}),
+   fetch("https://proxy.cors.dev/"+yahooUrl,{cache:"no-store",credentials:"omit"})
+  ]);
+  if(!metalResponse.ok)throw new Error("Edelmetaalbron niet bereikbaar");
+  if(!fxResponse.ok)throw new Error("Live wisselkoers niet bereikbaar");
+  const [metalData,fxData]=await Promise.all([metalResponse.json(),fxResponse.json()]);
+  const chart=fxData.chart?.result?.[0];
+  const fxMeta=chart?.meta;
+  const eurUsd=Number(fxMeta?.regularMarketPrice);
+  const fxTimestamp=Number(fxMeta?.regularMarketTime)*1000;
+  const goldUsdKg=Number(metalData.per_kg_usd??(Number(metalData.spot_usd_oz)*OUNCE_TO_KG));
+  const silverUsdOunce=Number(metalData.silver_usd_oz);
+  const metalTimestamp=Date.parse(metalData.price_as_of||metalData.updated_at||"");
+  const now=Date.now();
+  if(metalData.data_state?.status!=="fresh"||!Number.isFinite(metalData.data_state?.age_seconds)||metalData.data_state.age_seconds>180)throw new Error("Goud/zilverbron is verouderd");
+  if(!Number.isFinite(metalTimestamp)||now-metalTimestamp>180000||metalTimestamp>now+60000)throw new Error("Tijdstip van edelmetaalkoers is ongeldig");
+  if(!Number.isFinite(fxTimestamp)||now-fxTimestamp>15*60*1000||fxTimestamp>now+60000)throw new Error("Wisselkoers is ouder dan 15 minuten");
+  if(![eurUsd,goldUsdKg,silverUsdOunce].every(v=>Number.isFinite(v)&&v>0))throw new Error("Ongeldige marktgegevens");
+  const gold=goldUsdKg/eurUsd;
+  const silver=silverUsdOunce*OUNCE_TO_KG/eurUsd;
   const prevGold=getPrevious("gold"),prevSilver=getPrevious("silver");
   renderPrice(gold,"goldKgHome","goldGramHome");
   renderPrice(silver,"silverKgHome","silverGramHome");
@@ -478,16 +485,18 @@ async function loadPrices(){
   renderPrice(silver,"silverKgRates","silverGramRates");
   setChange("goldChangeHome",gold,prevGold);setChange("silverChangeHome",silver,prevSilver);
   setChange("goldChangeRates",gold,prevGold);setChange("silverChangeRates",silver,prevSilver);
-  quoteCache.gold=gold;quoteCache.silver=silver;quoteCache.updatedAt=Date.now();
+  quoteCache.gold=gold;quoteCache.silver=silver;quoteCache.updatedAt=now;
   localStorage.setItem("gm_quote_cache",JSON.stringify(quoteCache));
-  const stamp=new Date(updatedAt).toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"});
+  const stamp=new Date(Math.min(metalTimestamp,fxTimestamp)).toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"});
   $("homeUpdate").innerHTML="Vernieuwd<br>"+stamp;
-  $("ratesUpdated").textContent="Live spotkoersen via XAUS · Marktdata: "+stamp+" · Automatische vernieuwing elke 60 seconden.";
+  $("ratesUpdated").textContent="Live XAU/XAG + actuele EUR/USD · Marktdata: "+stamp+" · Automatische vernieuwing elke 60 seconden.";
  }catch(error){
   console.warn("Koersen konden niet worden vernieuwd:",error);
   $("homeUpdate").textContent="Koers niet actueel";
-  $("ratesUpdated").textContent="Geen bevestigde live koers beschikbaar. De laatst opgeslagen bedragen worden niet als live voorgesteld; er wordt automatisch opnieuw geprobeerd.";
-  if(!quoteCache.gold||!quoteCache.silver){$("goldKgHome").textContent="—";$("silverKgHome").textContent="—";$("goldKgRates").textContent="—";$("silverKgRates").textContent="—"}
+  $("ratesUpdated").textContent="Geen bevestigde live koers beschikbaar. Vernieuw later opnieuw.";
+  // Wis de getoonde bedragen: een oude koers mag niet als actuele prijs verschijnen.
+  ["goldKgHome","goldGramHome","silverKgHome","silverGramHome","goldKgRates","goldGramRates","silverKgRates","silverGramRates"].forEach(id=>$(id).textContent="—");
+  ["goldChangeHome","silverChangeHome","goldChangeRates","silverChangeRates"].forEach(id=>{const el=$(id);el.textContent="—";el.className="change neutral"});
  }
 }
 $("refreshRates").addEventListener("click",loadPrices);
