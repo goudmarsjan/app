@@ -1,0 +1,14 @@
+{
+  "name": "De Goudmarsjan — Edelmetalen & Gold Rush",
+  "short_name": "Goudmarsjan",
+  "description": "Actuele edelmetaalkoersen en Gold Rush.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080706",
+  "theme_color": "#090705",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
