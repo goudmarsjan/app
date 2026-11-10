@@ -98,13 +98,13 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .game-panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 4px 10px}
 .game-panel-top h2{margin:0;color:#ffd34f;font-size:22px}
 .game-panel-top p{margin:0;color:#c9bba7;font-size:12px}
-.game-hud{display:none;position:absolute;left:39%;right:13%;top:3%;z-index:3;justify-content:center;align-items:center;gap:0;border:2px solid #81501b;border-radius:11px;background:#160d07e8;box-shadow:0 3px 8px #0009}
-.hud-cell{flex:1;text-align:center;padding:8px 5px;border-right:1px solid #704a1c}
+.game-hud{display:none;position:absolute;left:22%;right:14%;top:12px;z-index:3;grid-template-columns:1fr 1fr 1.2fr;align-items:stretch;gap:0;min-height:60px;padding:3px;border:2px solid #a36b1e;border-radius:12px;background:linear-gradient(180deg,#24170cef,#100a06f4);box-shadow:0 3px 10px #000b,inset 0 1px #ffffff20;line-height:normal}
+.hud-cell{min-width:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5px 7px;border-right:1px solid #704a1c;line-height:1.15}
 .hud-cell:last-child{border:0}
-.hud-cell span{display:block;font-size:12px;color:#eee}
-.hud-cell b{display:block;font-size:19px;color:#ffe06a}
-#lifeCount{font-size:19px;letter-spacing:2px;color:#f33}
-.game-frame{position:relative;overflow:hidden;border:2px solid #98621c;border-radius:15px;background:#080b0f;line-height:0}
+.hud-cell span{display:block;font-size:11px;line-height:1.15;color:#eadcc8;margin:0 0 4px}
+.hud-cell b{display:block;font-size:19px;line-height:1.15;color:#ffe06a;white-space:nowrap}
+#lifeCount{font-size:18px;letter-spacing:1px;color:#f33}
+.game-frame{position:relative;overflow:hidden;border:2px solid #98621c;border-radius:15px;background:#080b0f;line-height:normal;aspect-ratio:900/520}
 #gameCanvas{display:block;width:100%;height:auto;aspect-ratio:900/520;background:radial-gradient(ellipse at 50% 50%,#26313b,#090a0d 75%);touch-action:none}
 #gamePreview{display:block;width:100%;height:auto;aspect-ratio:910/520;object-fit:cover;object-position:top center}
 .game-pause{position:absolute;top:14px;right:14px;z-index:4;width:54px;height:54px;border:2px solid #f9c342;border-radius:13px;background:linear-gradient(#3b260b,#100b06);color:#ffd34f;font-size:25px;display:none}
@@ -112,7 +112,9 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .game-frame.running #gamePreview{display:none}
 .game-frame.running #gameCanvas{display:block}
 .game-frame:not(.running) #gameCanvas{display:none}
-.game-frame.running .game-hud{display:flex;left:4%;right:18%;top:3%}
+.game-frame.running{aspect-ratio:900/520}
+.game-frame.running .game-hud{display:grid;left:22%;right:14%;top:12px}
+.game-frame.running #gameCanvas{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
 .controls{display:flex;justify-content:center;align-items:center;gap:14px;margin:12px 0 4px}
 .move-button{width:92px;height:54px;border:2px solid #bf882b;border-radius:14px;background:linear-gradient(#392918,#130d07);color:#ffda60;font-size:28px;font-weight:900;touch-action:none}
 .move-button:active{background:#765018}
@@ -186,11 +188,13 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
  .rates-large .price-card{min-height:145px}
  .game-panel-top{align-items:flex-start;flex-direction:column}
  .game-panel-top h2{font-size:19px}
- .game-hud{left:4%;right:18%;top:3%}
- .hud-cell{padding:5px 3px}
- .hud-cell span{font-size:9px}
+ .game-hud{left:13%;right:13%;top:8px;min-height:51px}
+ .hud-cell{padding:4px 2px}
+ .hud-cell span{font-size:9px;margin-bottom:3px}
  .hud-cell b{font-size:15px}
- .game-frame.running .game-hud{display:flex;left:3%;right:18%;top:3%}
+ #lifeCount{font-size:15px;letter-spacing:0}
+ .game-frame.running .game-hud{display:grid;left:13%;right:13%;top:8px}
+ .game-frame.running #gameCanvas{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
  .game-pause{width:43px;height:43px;top:9px;right:9px}
  .controls{gap:10px}
  .move-button{width:78px;height:49px}
@@ -307,7 +311,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       </div>
       <div class="controls">
         <button class="move-button" id="moveLeft" aria-label="Links">←</button>
-        <span style="align-self:center;color:#c9bba7;font-size:12px">Gebruik de pijlen of A / D</span>
+        <button class="move-button down-button" id="moveDown" aria-label="Verder afdalen">↓</button>
+        <span style="align-self:center;color:#c9bba7;font-size:12px">← → bewegen · ↓ afdalen</span>
         <button class="move-button" id="moveRight" aria-label="Rechts">→</button>
       </div>
       <div class="game-actions">
@@ -316,6 +321,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       </div>
       <div class="how-to">
         <div class="how-item"><b>← →</b><span>Beweeg links en rechts</span></div>
+        <div class="how-item"><b>↓</b><span>Stap door naar het lagere niveau</span></div>
         <div class="how-item"><b>🪙</b><span>Verzamel goud voor punten</span></div>
         <div class="how-item"><b>🟩</b><span>Veilige platformen</span></div>
         <div class="how-item"><b>🟥</b><span>Rode rotsen kosten een leven</span></div>
@@ -365,7 +371,7 @@ const OUNCE_TO_KG=32.1507466;
 let lastQuotes={gold:null,silver:null};
 let allScores=[];
 let scoreFilter="month";
-let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false},invulnerableUntil:0,damageFlash:0};
+let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false,down:false},invulnerableUntil:0,damageFlash:0,nextPlatformId:1,lastSafePlatform:null,startY:0};
 let ctx=null,canvas=null,canvasScale=1;
 const savedName=localStorage.getItem("gm_player_name")||"";
 const quoteCache=(()=>{try{return JSON.parse(localStorage.getItem("gm_quote_cache")||"{}")}catch(e){return {}}})();
@@ -510,25 +516,29 @@ function resizeCanvas(){
  canvasScale=dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 function buildWorld(){
- const width=canvas.clientWidth||900;
+ const width=canvas.clientWidth||900,h=canvas.clientHeight||520;
  game.score=0;game.depth=0;game.lives=3;game.camera=0;game.invulnerableUntil=0;game.damageFlash=0;
- game.player={x:width/2-17,y:95,w:34,h:46,vy:2.2};
- game.platforms=[];game.coins=[];
- game.platforms.push({x:width/2-83,y:164,w:166,h:20,type:"safe",hit:false});
- let y=265;
- while(y<3700){
-  const w=rand(95,165),x=rand(20,Math.max(21,width-w-20));
-  const roll=Math.random(),type=roll<.19?"danger":roll<.42?"gold":"safe";
-  game.platforms.push({x,y,w,h:18,type,hit:false});
-  if(Math.random()<.9)game.coins.push({x:x+w*rand(.25,.75),y:y-45,r:12,got:false});
-  y+=rand(100,145);
+ game.nextPlatformId=1;game.platforms=[];game.coins=[];game.keys={left:false,right:false,down:false};
+ const startPlatform={id:game.nextPlatformId++,x:width/2-90,y:Math.round(h*.43),w:180,h:20,type:"safe",rewarded:false};
+ game.platforms.push(startPlatform);game.startY=startPlatform.y;
+ game.lastSafePlatform={...startPlatform};
+ game.player={x:width/2-17,y:startPlatform.y-46,w:34,h:46,vy:0,grounded:true,groundPlatformId:startPlatform.id};
+ let y=startPlatform.y+110;
+ while(y<startPlatform.y+h*5){
+  const w=rand(Math.max(72,width*.14),Math.max(105,width*.22));
+  const x=rand(12,Math.max(13,width-w-12));
+  const roll=Math.random(),type=roll<.17?"danger":roll<.42?"gold":"safe";
+  const platform={id:game.nextPlatformId++,x,y,w,h:18,type,rewarded:false};
+  game.platforms.push(platform);
+  if(Math.random()<.92)game.coins.push({x:x+w*rand(.25,.75),y:y-43,r:12,got:false});
+  y+=rand(94,122);
  }
 }
 function drawBackground(w,h,camera){
  const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,"#1a2630");g.addColorStop(.55,"#101923");g.addColorStop(1,"#09090c");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
  ctx.fillStyle="#18212a";ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(w*.11,0);ctx.lineTo(w*.08,h*.22);ctx.lineTo(w*.16,h*.39);ctx.lineTo(w*.08,h*.56);ctx.lineTo(w*.15,h*.77);ctx.lineTo(w*.08,h);ctx.lineTo(0,h);ctx.fill();
  ctx.beginPath();ctx.moveTo(w,0);ctx.lineTo(w*.89,0);ctx.lineTo(w*.92,h*.18);ctx.lineTo(w*.84,h*.36);ctx.lineTo(w*.93,h*.57);ctx.lineTo(w*.85,h*.8);ctx.lineTo(w*.91,h);ctx.lineTo(w,h);ctx.fill();
- for(let i=0;i<40;i++){const x=(i*137)%w,y=((i*91-camera*.23)%(h+20)+h+20)%(h+20);ctx.fillStyle=i%3===0?"#efaa34":"#a8b8c8";ctx.globalAlpha=.18+(i%4)*.06;ctx.beginPath();ctx.arc(x,y,(i%3)+1,0,Math.PI*2);ctx.fill()}
+ for(let i=0;i<46;i++){const x=(i*137)%w,y=((i*91-camera*.23)%(h+20)+h+20)%(h+20);ctx.fillStyle=i%3===0?"#efaa34":"#a8b8c8";ctx.globalAlpha=.18+(i%4)*.06;ctx.beginPath();ctx.arc(x,y,(i%3)+1,0,Math.PI*2);ctx.fill()}
  ctx.globalAlpha=1;
  for(let side=0;side<2;side++){
   const x=side?w-48:48,y=75+((camera*.15)%180);
@@ -549,8 +559,8 @@ function drawCoin(c,camera){
  if(c.got)return;const y=c.y-camera;if(y<-20||y>canvas.clientHeight+20)return;
  ctx.save();ctx.shadowColor="#ffcb3e";ctx.shadowBlur=15;ctx.fillStyle="#ffc52f";ctx.beginPath();ctx.arc(c.x,y,c.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle="#fff09a";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#895009";ctx.font="bold 13px Georgia";ctx.textAlign="center";ctx.fillText("G",c.x,y+4);ctx.restore();
 }
-function drawMiner(p){
- const x=p.x,y=p.y;
+function drawMiner(p,camera){
+ const x=p.x,y=p.y-camera;
  ctx.save();
  ctx.fillStyle="#39200f";ctx.beginPath();ctx.ellipse(x+p.w/2,y+p.h-3,13,5,0,0,Math.PI*2);ctx.fill();
  ctx.fillStyle="#7b421c";ctx.fillRect(x+7,y+21,21,20);
@@ -575,7 +585,7 @@ function drawGame(){
  ctx.clearRect(0,0,w,h);drawBackground(w,h,game.camera);
  game.platforms.forEach(p=>drawPlatform(p,game.camera));
  game.coins.forEach(c=>drawCoin(c,game.camera));
- if(game.player)drawMiner(game.player);
+ if(game.player)drawMiner(game.player,game.camera);
  if(game.damageFlash>Date.now()){ctx.fillStyle="#e2272760";ctx.fillRect(0,0,w,h)}
  if(game.paused||game.ended){
   ctx.fillStyle="#000a";ctx.fillRect(0,0,w,h);ctx.textAlign="center";
@@ -584,63 +594,88 @@ function drawGame(){
  }
  updateHud();
 }
+function addPlatform(y,width){
+ const w=rand(Math.max(72,width*.14),Math.max(105,width*.22));
+ const x=rand(12,Math.max(13,width-w-12));
+ const roll=Math.random(),type=roll<.17?"danger":roll<.42?"gold":"safe";
+ const platform={id:game.nextPlatformId++,x,y,w,h:18,type,rewarded:false};
+ game.platforms.push(platform);
+ if(Math.random()<.92)game.coins.push({x:x+w*rand(.25,.75),y:y-43,r:12,got:false});
+}
 function gameStep(timestamp){
  if(!game.active||game.paused)return;
  const dt=Math.min((timestamp-game.lastTime)/16.67,2.2);game.lastTime=timestamp;
  const w=canvas.clientWidth||900,h=canvas.clientHeight||520,p=game.player;
- const moveSpeed=Math.max(3.7,w*.006);
- if(game.keys.left)p.x-=moveSpeed*dt;if(game.keys.right)p.x+=moveSpeed*dt;
+ const moveSpeed=Math.max(3.8,w*.006);
+ if(game.keys.left)p.x-=moveSpeed*dt;
+ if(game.keys.right)p.x+=moveSpeed*dt;
  p.x=Math.max(2,Math.min(w-p.w-2,p.x));
- const previousBottom=p.y+p.h;
- p.vy=Math.min(p.vy+.13*dt,4.8);
- p.y+=p.vy*dt;
- const newBottom=p.y+p.h;
- if(p.vy>0){
+
+ // Drop through the current ledge when the player presses down.
+ if(game.keys.down&&p.grounded){
+  p.grounded=false;p.groundPlatformId=null;p.y+=5;p.vy=2.2;game.keys.down=false;
+ }
+ if(p.grounded){
+  const support=game.platforms.find(platform=>platform.id===p.groundPlatformId);
+  if(!support||p.x+p.w<support.x+2||p.x>support.x+support.w-2){
+   p.grounded=false;p.groundPlatformId=null;p.vy=.35;
+  }else{
+   p.y=support.y-p.h;p.vy=0;
+  }
+ }
+ if(!p.grounded){
+  const previousBottom=p.y+p.h;
+  p.vy=Math.min(p.vy+.27*dt,8.5);
+  p.y+=p.vy*dt;
+  const newBottom=p.y+p.h;
   for(const platform of game.platforms){
-   if(platform.hit)continue;
-   const platformScreenY=platform.y-game.camera;
-   if(previousBottom<=platformScreenY+4&&newBottom>=platformScreenY&&p.x+p.w>platform.x+4&&p.x<platform.x+platform.w-4){
-    platform.hit=true;
+   if(previousBottom<=platform.y&&newBottom>=platform.y&&p.x+p.w>platform.x+3&&p.x<platform.x+platform.w-3){
+    p.y=platform.y-p.h;p.vy=0;p.grounded=true;p.groundPlatformId=platform.id;
     if(platform.type==="danger"){
-     if(timestamp>game.invulnerableUntil){game.lives--;game.invulnerableUntil=timestamp+1000;game.damageFlash=Date.now()+180}
-     p.vy=-3.2;
+     if(timestamp>game.invulnerableUntil){game.lives--;game.invulnerableUntil=timestamp+1100;game.damageFlash=Date.now()+180}
      if(game.lives<=0){finishGame();return}
     }else{
-     if(platform.type==="gold")game.score+=250;
-     p.vy=-1.2;
+     game.lastSafePlatform={...platform};
+     if(platform.type==="gold"&&!platform.rewarded){game.score+=250;platform.rewarded=true}
     }
     break;
    }
   }
  }
+ // Collectibles and platforms share world coordinates; scrolling only affects rendering.
  for(const coin of game.coins){
-  const coinScreenY=coin.y-game.camera;
-  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coinScreenY)<25){coin.got=true;game.score+=100}
+  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coin.y)<26){coin.got=true;game.score+=100}
  }
- const worldDepth=p.y+game.camera;
- game.depth=Math.max(game.depth,worldDepth/4);
- if(p.y>h-90){game.camera+=p.y-(h-90);p.y=h-90}
- if(p.y<20&&game.camera>0){p.y=20}
- if(game.depth>0)game.score=Math.max(game.score,Math.floor(game.depth*12));
- let bottom=Math.max(...game.platforms.map(x=>x.y));
- while(bottom<game.camera+h+1000){
-  bottom+=rand(100,145);
-  const y=bottom,w2=rand(95,165),x=rand(15,Math.max(16,w-w2-15));
-  const t=Math.random()<.18?"danger":Math.random()<.26?"gold":"safe";
-  game.platforms.push({x,y,w:w2,h:18,type:t,hit:false});
-  if(Math.random()<.92)game.coins.push({x:x+w2*rand(.25,.75),y:y-45,r:12,got:false});
+ game.depth=Math.max(game.depth,Math.max(0,(p.y-game.startY)/5));
+ game.score=Math.max(game.score,Math.floor(game.depth*12));
+
+ // Camera follows the mineworker smoothly as he descends.
+ const cameraTarget=Math.max(0,p.y-h*.53);
+ if(cameraTarget>game.camera)game.camera+=(cameraTarget-game.camera)*Math.min(1,.18*dt);
+
+ // New ledges are added below the screen; existing ledges never disappear.
+ let bottom=game.platforms.reduce((max,platform)=>Math.max(max,platform.y),0);
+ while(bottom<game.camera+h+700){bottom+=rand(94,122);addPlatform(bottom,w)}
+ game.platforms=game.platforms.filter(platform=>platform.y>game.camera-260);
+ game.coins=game.coins.filter(coin=>coin.y>game.camera-120&&!coin.got);
+
+ // A missed ledge costs one life and returns the player to the last safe ledge.
+ if(p.y>game.camera+h+80){
+  game.lives--;if(game.lives<=0){finishGame();return}
+  const checkpoint=game.lastSafePlatform||game.platforms[0];
+  game.camera=Math.max(0,checkpoint.y-h*.53);
+  p.x=Math.min(w-p.w-2,Math.max(2,checkpoint.x+checkpoint.w/2-p.w/2));
+  p.y=checkpoint.y-p.h;p.vy=0;p.grounded=true;p.groundPlatformId=checkpoint.id;
+  game.damageFlash=Date.now()+180;
  }
- game.platforms=game.platforms.filter(x=>x.y>game.camera-130);
- game.coins=game.coins.filter(x=>x.y>game.camera-80&&!x.got);
- if(p.y>h+50){game.lives--;p.y=70;p.vy=0;if(game.lives<=0){finishGame();return}}
  drawGame();game.raf=requestAnimationFrame(gameStep);
 }
 function startGame(){
- cancelAnimationFrame(game.raf);
- buildWorld();game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
+ cancelAnimationFrame(game.raf);buildWorld();
+ game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
  $("gameFrame").classList.add("running");$("submitBox").classList.add("hidden");
  $("startGame").textContent="⛏ AFDALING BEZIG";$("startGame").disabled=true;$("restartGame").disabled=true;
- $("gameStatus").textContent="Je bent vertrokken! Verzamel goud en ontwijk de rode rotsen.";
+ $("gameStatus").textContent="Stap met ↓ naar een lager platform. Beweeg met ← en → en verzamel goud onderweg.";
  drawGame();game.raf=requestAnimationFrame(gameStep);
 }
 function finishGame(){
@@ -666,17 +701,19 @@ function bindMove(buttonId,key){
  button.addEventListener("pointerdown",event=>{event.preventDefault();game.keys[key]=true;button.setPointerCapture(event.pointerId)});
  ["pointerup","pointercancel","lostpointercapture"].forEach(type=>button.addEventListener(type,()=>game.keys[key]=false));
 }
-bindMove("moveLeft","left");bindMove("moveRight","right");
+bindMove("moveLeft","left");bindMove("moveRight","right");bindMove("moveDown","down");
 window.addEventListener("keydown",event=>{
  if(["ArrowLeft","a","A"].includes(event.key)){game.keys.left=true;event.preventDefault()}
  if(["ArrowRight","d","D"].includes(event.key)){game.keys.right=true;event.preventDefault()}
+ if(["ArrowDown","s","S"].includes(event.key)){game.keys.down=true;event.preventDefault()}
  if(event.key==="Escape"&&game.active)pauseGame();
 });
 window.addEventListener("keyup",event=>{
  if(["ArrowLeft","a","A"].includes(event.key))game.keys.left=false;
  if(["ArrowRight","d","D"].includes(event.key))game.keys.right=false;
+ if(["ArrowDown","s","S"].includes(event.key))game.keys.down=false;
 });
-window.addEventListener("blur",()=>{game.keys.left=false;game.keys.right=false});
+window.addEventListener("blur",()=>{game.keys.left=false;game.keys.right=false;game.keys.down=false});
 window.addEventListener("resize",()=>{if(game.active||game.ended)drawGame()});
 canvas.addEventListener("pointerdown",event=>{if(!game.active)return;const rect=canvas.getBoundingClientRect();const x=event.clientX-rect.left;game.keys.left=x<rect.width/2;game.keys.right=x>=rect.width/2});
 ["pointerup","pointercancel","pointerleave"].forEach(type=>canvas.addEventListener(type,()=>{game.keys.left=false;game.keys.right=false}));
