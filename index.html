@@ -256,6 +256,28 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
  .change{font-size:9px;padding:3px 5px}
 }
 
+
+/* Mobile Gold Rush: portrait playfield with larger thumb controls. */
+@media(max-width:720px){
+ .game-frame.running{
+  aspect-ratio:2/3;
+  height:min(72svh,720px);
+  min-height:420px;
+  max-height:720px;
+ }
+ .game-frame.running .game-hud{left:16%;right:16%;top:12px;min-height:58px}
+ .game-frame.running .game-pause{width:46px;height:46px}
+ .controls{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,84px));
+  justify-content:center;
+  gap:12px;
+  margin:14px 0 6px;
+ }
+ .controls>span{display:none}
+ .move-button{width:100%;height:68px;font-size:36px;border-radius:17px}
+}
+
 </style>
 </head>
 <body>
@@ -821,7 +843,7 @@ function startGame(){
  }
  game.nameConfirmedForRun=false;
  $("requiredNameBox").classList.add("hidden");
- cancelAnimationFrame(game.raf);buildWorld();
+ cancelAnimationFrame(game.raf);$("gameFrame").classList.add("running");void $("gameFrame").offsetHeight;resizeCanvas();buildWorld();
  game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
  $("gameFrame").classList.add("running");$("submitBox").classList.add("hidden");
  $("startGame").textContent="⛏ AFDALING BEZIG";$("startGame").disabled=true;$("restartGame").disabled=true;
