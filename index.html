@@ -1,128 +1,704 @@
 <!doctype html>
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#17130f"><meta name="description" content="Actuele goud- en zilverkoersen en Gold Rush van De Goudmarsjan."><title>De Goudmarsjan | Koersen & Gold Rush</title>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090705">
+<meta name="description" content="Actuele goud- en zilverkoersen, Gold Rush en het scorebord van De Goudmarsjan.">
+<meta name="application-name" content="De Goudmarsjan">
+<link rel="manifest" href="/manifest.json">
+<title>De Goudmarsjan — Edelmetalen & Gold Rush</title>
 <style>
-:root{--gold:#c8953d;--gold2:#f0cf82;--cream:#f7f1e7;--muted:#a9a095;--line:#493a28}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#302519,#17130f 58%);color:var(--cream);font-family:Inter,system-ui,sans-serif;min-height:100vh}.wrap{max-width:1050px;margin:auto;padding:22px 15px 50px}.brand{display:flex;align-items:center;gap:12px;margin:6px 0 24px}.mark{width:46px;height:46px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:23px}.brand strong{letter-spacing:2px}.brand small{display:block;color:var(--muted);letter-spacing:4px;font-size:10px}.hero{text-align:center;padding:15px 8px 26px}.eyebrow{color:var(--gold2);letter-spacing:3px;text-transform:uppercase;font-size:11px}.hero h1{font: bold clamp(34px,6vw,54px)/1.05 Georgia,serif;margin:12px 0}.hero p{color:#c9beb0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{background:linear-gradient(145deg,#282119,#1d1914);border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 12px 32px #0004}.panel h2{font:24px Georgia,serif;margin:0 0 15px}.prices{display:grid;grid-template-columns:1fr 1fr;gap:10px}.price{background:#100e0b;border:1px solid #51402a;border-radius:14px;padding:15px}.metal{font-size:12px;color:var(--gold2);letter-spacing:2px}.price strong{display:block;font-size:clamp(22px,3.5vw,34px);margin:9px 0}.price small,.hint{color:var(--muted);font-size:12px}.notice{font-size:12px;color:var(--muted);line-height:1.5}.game,.leaderboard{grid-column:1/-1}.game-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{background:#100e0b;border:1px solid var(--line);padding:8px 11px;border-radius:10px;font-size:13px}.stat b{color:var(--gold2)}#gameCanvas{display:block;width:100%;height:460px;background:#17130f;border:1px solid #72542b;border-radius:14px;margin-top:13px;touch-action:none}.controls{display:flex;justify-content:space-between;gap:12px;margin-top:10px}.move{width:88px;height:48px;border-radius:12px;border:1px solid #8c682e;background:#2a2117;color:var(--gold2);font-size:23px;font-weight:bold;touch-action:none}.btn{border:0;border-radius:999px;padding:12px 20px;background:linear-gradient(135deg,#f0cf82,#b47a25);color:#1b1308;font-weight:800;cursor:pointer}.btn:disabled{opacity:.45}.actions{display:flex;gap:10px;margin-top:13px;flex-wrap:wrap}.formrow{display:flex;gap:8px;margin-top:10px}.formrow input{flex:1;min-width:0;background:#100e0b;color:white;border:1px solid #655033;border-radius:10px;padding:12px}.leader-list{display:grid;gap:8px;margin-top:14px}.leader-row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;background:#100e0b;border:1px solid #342a1e;padding:11px 13px;border-radius:11px}.rank,.score{color:var(--gold2);font-weight:800}.empty{text-align:center;color:var(--muted);padding:16px}.hidden{display:none!important}.footer{text-align:center;color:#8d8274;font-size:12px;padding:25px 0 0}@media(max-width:680px){.grid{grid-template-columns:1fr}.game,.leaderboard{grid-column:auto}.panel{padding:15px}#gameCanvas{height:430px}.wrap{padding-inline:12px}}
-.masthead{height:230px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:18px;background:radial-gradient(ellipse at 30% 100%,#70400c,#17100a 65%,#080706);border:1px solid #704d1e;margin-bottom:14px}.mascot{position:absolute;left:0;bottom:0;width:38%;font-size:125px;filter:drop-shadow(0 0 14px #e6a72a);text-align:center}.brandlogo{text-align:center;z-index:1;margin-left:28%;text-shadow:0 3px 12px #000}.brandlogo .bars{font-size:36px;color:#ffc02c;letter-spacing:-12px}.brandlogo strong{display:block;font-size:clamp(25px,5vw,46px);color:#fff}.brandlogo i{font-style:normal;color:#d99a22}.brandlogo small{display:block;letter-spacing:4px;margin-top:8px}.settings{position:absolute;right:18px;top:15px;color:#f4c54c;font-size:28px}.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:15px}.nav a{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;color:#eee;background:linear-gradient(145deg,#29231d,#100e0c);border:1px solid #59452d;border-radius:14px;padding:11px 3px;font-size:23px}.nav a small{font-size:12px;font-weight:700}.nav a.active{background:linear-gradient(135deg,#ffda54,#d78a08);color:#211504}.hero{padding:10px 8px 18px}.panel{background:linear-gradient(145deg,#241d16ee,#100e0cee);border-color:#765322;box-shadow:0 0 0 1px #dba33a22,0 8px 26px #0008}.panel h2{font-family:Inter,system-ui,sans-serif;font-size:20px;font-weight:850}.live{float:right;color:#7dff6c;font-size:11px;border:1px solid #168c1a;background:#063d0b;padding:5px 10px;border-radius:20px}.price{background:linear-gradient(145deg,#49300b,#171006);border:2px solid #dba52d;box-shadow:inset 0 0 18px #edaa2a22}.price:nth-child(2){background:linear-gradient(145deg,#555,#171717);border-color:#aaa}.game{background:linear-gradient(145deg,#1a1712,#070707);border:2px solid #b77a19}#gameCanvas{height:500px;background:radial-gradient(ellipse at 50% 50%,#1b2630,#08090c 75%);border:2px solid #8e5b19;box-shadow:inset 0 0 35px #000}.btn{background:linear-gradient(180deg,#ffe36b,#efa900 65%,#bb6e00);border:1px solid #ffe18a;box-shadow:0 3px 0 #8c4b00,0 0 15px #eaa21d55}.footer{border-top:1px solid #60451d;margin-top:22px}@media(max-width:680px){.masthead{height:190px}.mascot{font-size:95px}.brandlogo{margin-left:27%}.brandlogo small{letter-spacing:2px}.nav{gap:5px}.nav a small{font-size:10px}#gameCanvas{height:460px}}
-body{background:radial-gradient(ellipse at top,#24190e 0,#080706 58%);color:#fff}.wrap{max-width:850px;padding:12px 14px 40px}.masthead{height:250px;background:radial-gradient(ellipse at 24% 90%,#75410d,#201205 55%,#050403);border:1px solid #b47a22;box-shadow:0 0 24px #d18b1b22}.mascot{font-size:130px;width:40%;text-shadow:0 0 12px #ffbe38}.brandlogo{margin-left:25%}.brandlogo .bars{font-size:43px;color:#ffc12d}.brandlogo strong{font-size:clamp(28px,5vw,47px)}.settings{font-size:32px}.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 17px}.nav .tab{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px;color:#fff;background:linear-gradient(145deg,#29231e,#0e0c0a);border:1px solid #75552e;border-radius:17px;padding:13px 5px;font-size:26px;font-weight:700;box-shadow:0 5px 12px #0009}.nav .tab small{font-size:14px}.nav .tab.active{background:linear-gradient(180deg,#ffe46a,#e5a000 80%,#a85d00);color:#1b1205;border-color:#ffe17a;box-shadow:0 0 15px #e9a91f66}.tabpage{display:none;animation:appear .22s ease}.tabpage.active{display:block}@keyframes appear{from{opacity:.6;transform:translateY(4px)}to{opacity:1;transform:none}}.hero{text-align:center;padding:15px 8px 22px}.hero h1{font:bold clamp(30px,5vw,48px)/1.05 Georgia,serif}.homehero{padding:8px 8px 18px}.panel{background:linear-gradient(145deg,#251b10f5,#0c0907f5);border:2px solid #80521a;border-radius:20px;box-shadow:inset 0 0 22px #d38a2420,0 9px 25px #0009;padding:18px;margin-bottom:15px}.panel h2{font-size:21px;font-weight:850}.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.section-head h2{margin:0 0 13px}.prices{grid-template-columns:1fr 1fr}.price{min-width:0;text-align:center;background:linear-gradient(145deg,#65400b,#170f05);border:2px solid #f0b52b;border-radius:17px;box-shadow:inset 0 0 22px #f9b82a22;padding:14px 8px}.price strong{font-size:clamp(20px,4vw,30px);white-space:nowrap}.price .metal{font-size:17px;font-weight:900;color:#ffd34f}.price.silver,.price:nth-child(2){background:linear-gradient(145deg,#656565,#171717);border-color:#c6c6c6}.price.silver .metal{color:#fff}.home-rates .btn{margin-top:13px}.rush-promo{min-height:270px;margin:15px 0;border:2px solid #9a651b;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:20px;background:radial-gradient(ellipse at 15% 90%,#7d4a0c,#17212b 43%,#090b0d 75%);box-shadow:inset 0 0 35px #d18b2a33,0 9px 25px #0009}.promo-miner{font-size:clamp(80px,17vw,150px);filter:drop-shadow(0 0 14px #f4a91f);width:38%;text-align:center}.promo-copy{text-align:center;flex:1}.promo-title{font:italic 900 clamp(34px,7vw,66px)/.95 Georgia,serif;color:#ffc22c;text-shadow:2px 3px #8a4300,0 0 15px #ffad20}.promo-sub{display:inline-block;background:linear-gradient(#eeb22c,#754008);padding:5px 15px;border-radius:8px;color:#1c1104;font-weight:1000;transform:rotate(-2deg);margin:6px}.promo-copy p{font-weight:700;line-height:1.4}.btn{cursor:pointer;background:linear-gradient(#ffe76c,#f4ae00 70%,#bc6900);color:#170e02;border:1px solid #ffe48a;border-radius:999px;padding:13px 23px;font-weight:950;font-size:17px;box-shadow:0 4px 0 #8a4a00,0 0 17px #f0ad2b66}.btn.secondarytab{font-size:13px;padding:9px 16px}.live{color:#7aff69;background:#063b0b;border:1px solid #1c9b25;padding:6px 11px;border-radius:20px;font-size:12px;white-space:nowrap}.game{padding:14px;background:linear-gradient(145deg,#17191b,#070707);border-color:#b27a21}.game-head h2{color:#ffd34f}.stats{gap:7px}.stat{background:#130e08;border:1px solid #78511d}.stat b{color:#ffd34f}#gameCanvas{height:510px;background:radial-gradient(ellipse at 50% 45%,#23303b,#08090c 72%);border:2px solid #8b5b1a;border-radius:14px}.controls{justify-content:center}.move{width:90px;height:52px;background:linear-gradient(#392818,#15100a);border:1px solid #c38b2c;color:#ffd34f}.actions{justify-content:center}.actions .btn{min-width:180px}.leaderboard{margin-top:15px}.leader-row{background:linear-gradient(90deg,#30200c,#100d09);border:1px solid #664619;border-radius:12px}.rank,.score{color:#ffcf42}.footer{margin-top:24px}@media(max-width:600px){.masthead{height:205px}.mascot{font-size:96px}.brandlogo{margin-left:30%}.brandlogo small{letter-spacing:2px}.nav{gap:7px}.nav .tab{padding:11px 3px}.nav .tab small{font-size:12px}.panel{padding:13px}.prices{gap:7px}.price{padding:12px 5px}.rush-promo{padding:13px;min-height:230px}.promo-miner{font-size:85px}.promo-title{font-size:34px}.promo-copy p{font-size:12px}.promo-copy .btn{font-size:14px;padding:11px 14px}#gameCanvas{height:450px}}
-/* Reference-inspired illustrated gold-mine interface */
-body{background:#050403 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cpath d='M0 0L28 15 17 45 0 55M180 0L150 20 162 51 180 60M0 180L35 155 24 126 0 115M180 180L146 155 158 126 180 115' fill='none' stroke='%233c2815' stroke-width='12'/%3E%3C/svg%3E") repeat;background-size:180px}
-.wrap{max-width:980px;padding:12px 14px 42px}
-.masthead{height:345px;border-radius:0 0 22px 22px;border:0;border-bottom:2px solid #bd811e;background:radial-gradient(ellipse at 20% 80%,#6b390b 0,transparent 42%),radial-gradient(ellipse at 80% 40%,#39200b,transparent 50%),linear-gradient(110deg,#100b06,#090705 55%,#201307);box-shadow:inset 0 -25px 45px #0009,0 10px 28px #000;margin:0 -14px 12px}
-.masthead:before,.masthead:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(130deg,transparent 0 15%,#a96c1b22 15.5% 16%,transparent 16.5% 80%,#a96c1b18 80.5% 81%,transparent 81.5%)}
-.mascot{width:45%;height:100%;display:flex;align-items:flex-end;justify-content:center;left:0;z-index:1}
-.miner-art{width:100%;height:100%;max-height:340px;object-fit:contain;filter:drop-shadow(0 0 16px #e89a25aa)}
-.brandlogo{margin-left:28%;z-index:2}.brandlogo img{display:block;width:min(100%,390px);max-height:190px;object-fit:contain;filter:drop-shadow(0 4px 12px #000)}.brandlogo .bars{font-size:0;letter-spacing:0;width:130px;height:85px;margin:0 auto 3px;position:relative}
-.brandlogo .bars:before{content:"";position:absolute;left:38px;top:0;width:55px;height:35px;background:linear-gradient(135deg,#fff28b,#f5b51b 60%,#a65c05);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);filter:drop-shadow(0 2px 4px #000)}
-.brandlogo .bars:after{content:"";position:absolute;left:8px;top:37px;width:112px;height:39px;background:linear-gradient(135deg,#fff28b,#f5b51b 60%,#a65c05);clip-path:polygon(12% 0,88% 0,100% 100%,0 100%);filter:drop-shadow(0 2px 4px #000)}
-.brandlogo strong{font-size:clamp(28px,5vw,53px);letter-spacing:-1.5px;text-shadow:0 3px 2px #000}.brandlogo i{color:#e5a323}.brandlogo small{letter-spacing:5px;border-top:1px solid #d9b56a;padding-top:10px}
-.nav{margin:12px 0 17px}.nav .tab{border-radius:18px;min-height:82px;font-size:29px;background:linear-gradient(150deg,#29231e,#0b0907);border:2px solid #59432a;box-shadow:inset 0 1px #ffffff18,0 5px 12px #000}.nav .tab.active{background:linear-gradient(180deg,#ffe66b,#f3b20b 65%,#b96b00);border-color:#ffe17b;box-shadow:inset 0 2px #fff8,0 0 15px #e9a91f77;color:#171006}
-.homehero{display:none}
-.panel{background:linear-gradient(145deg,#21180fef,#0b0907f5);border:2px solid #67471f;border-radius:22px;box-shadow:inset 0 0 24px #d38a2418,0 9px 26px #000b;padding:19px}
-.home-rates{padding:18px}.section-head h2{font-size:clamp(18px,3vw,25px);font-weight:900}.prices{gap:12px}
-.price{position:relative;min-height:145px;background-image:linear-gradient(90deg,#2a1a05aa,#130d04dd),url("gold-price-card.png");background-size:cover;background-position:center;padding:16px 12px 13px 110px;display:flex;flex-direction:column;justify-content:center;text-align:left;background:linear-gradient(145deg,#5b3a0b,#130d04);border:2px solid #efb52b;border-radius:18px;box-shadow:inset 0 0 24px #ffc32d26,0 4px 12px #0008}
-.price:before{content:"";position:absolute;left:10px;top:50%;transform:translateY(-50%);width:90px;height:75px;background:linear-gradient(145deg,#fff2a0,#f7bd27 48%,#9a5605);clip-path:polygon(5% 55%,38% 5%,65% 30%,88% 10%,100% 75%,65% 100%,33% 82%);filter:drop-shadow(0 5px 5px #000)}
-.price:nth-child(2){background-image:linear-gradient(90deg,#2229,#111d),url("silver-price-card.png");background-size:cover;background-position:center;background-color:#141414;border-color:#c5c5c5}
-.price:nth-child(2):before{background:linear-gradient(145deg,#fff,#c6cbd0 50%,#5c6268)}
-.price .metal{font-size:22px;color:#ffd34f;font-weight:1000;letter-spacing:0}.price strong{font-size:clamp(19px,3vw,29px);margin:5px 0;white-space:nowrap}.price small{font-size:14px;color:#ded4c7}
-.rush-promo{position:relative;min-height:345px;background-image:linear-gradient(90deg,#080a0c55,#080a0c99),url("goldrush-promo.png");background-size:cover;background-position:center;margin:17px 0;border:2px solid #79501c;border-radius:22px;padding:18px;background:radial-gradient(ellipse at 15% 80%,#89510d88,transparent 36%),radial-gradient(ellipse at 90% 70%,#b7791488,transparent 28%),linear-gradient(135deg,#121a20,#080a0c 65%,#241508);overflow:hidden}
-.rush-promo:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(125deg,transparent 0 48px,#b78b4810 50px 53px,transparent 55px 95px);pointer-events:none}
-.promo-miner{width:43%;z-index:1;display:flex;align-items:flex-end;align-self:stretch}
-.promo-miner .miner-art{height:100%;max-height:320px;object-fit:contain;transform:scale(1.15);transform-origin:bottom center}
-.promo-copy{z-index:1}.promo-title{font-size:clamp(36px,7vw,72px);text-shadow:0 3px #713400,0 0 14px #ffb01b}.promo-sub{font-size:18px;box-shadow:0 3px 0 #583006}
-.leaderboard{background:linear-gradient(145deg,#21170d,#090705);border-color:#80521a}
-.leader-row{background:linear-gradient(90deg,#34220c,#17100a);border:1px solid #61451d;border-radius:14px;padding:12px 14px}
-#page-rates .hero{background:radial-gradient(ellipse at 50% 0,#50320f88,transparent 70%);padding:26px 8px}
-#page-rates .price{min-height:180px}
-#page-game .game{padding:14px;background:radial-gradient(ellipse at 50% 0,#3b260f,#0b0908 70%);border:2px solid #a16b1e}
-#page-game .game-head{padding:6px 8px 12px}#page-game .game-head h2{font-size:0;width:260px;height:75px;background:url("goldrush-title.png") center/contain no-repeat}
-#page-game .game-head h2{font-size:0;width:260px;height:75px;background:url("goldrush-title.png") center/contain no-repeat}
-#gameCanvas{height:540px;border:2px solid #9b681e;border-radius:12px;background:#090b0e url("game-scene.png") center/cover no-repeat;box-shadow:inset 0 0 45px #000}
-#page-game .stats{background:#160d07;border:2px solid #85511c;border-radius:12px;padding:7px;justify-content:center}
-#page-game .stat{font-size:15px;border:0;border-right:1px solid #79511d;border-radius:0;background:transparent;text-align:center;min-width:85px}
-#page-game .stat b{font-size:18px;color:#ffd34f}
-#page-game .controls{justify-content:center;gap:20px}
-#page-game .move{height:56px;width:100px;border-radius:14px;background:linear-gradient(#3a2918,#100b07);border:2px solid #b77c20;font-size:28px}
-#page-game .actions{justify-content:center}
-#page-game .actions .btn{min-width:230px;font-size:20px;padding:15px 26px}
-@media(max-width:600px){.masthead{height:270px;margin-inline:-14px}.mascot{width:43%}.miner-art{max-height:260px}.brandlogo{margin-left:27%}.brandlogo .bars{transform:scale(.8);margin-bottom:-4px}.brandlogo strong{font-size:clamp(25px,7vw,39px)}.brandlogo small{letter-spacing:2px}.nav .tab{min-height:70px;font-size:24px}.nav .tab small{font-size:12px}.price{padding-left:82px;min-height:130px}.price:before{width:67px;height:60px;left:7px}.price .metal{font-size:17px}.price strong{font-size:clamp(15px,4vw,21px)}.price small{font-size:11px}.rush-promo{min-height:255px;padding:10px}.promo-miner{width:36%}.promo-title{font-size:35px}.promo-sub{font-size:12px;padding:5px 9px}.promo-copy p{font-size:12px}#gameCanvas{height:460px}}
-
-/* Final masthead crop and alignment */
-.masthead{height:345px}
-.masthead .mascot{width:45%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.masthead .miner-art{width:100%;height:100%;max-height:none;object-fit:contain;object-position:center center;clip-path:inset(8% 0 0 0);filter:drop-shadow(0 0 16px #e89a25aa)}
-.brandlogo{position:relative;z-index:2;width:40%;max-width:410px;height:100%;margin-left:5%;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.brandlogo img{display:block;width:100%;height:100%;max-height:300px;object-fit:contain;object-position:center;clip-path:inset(7% 0 0 0);filter:drop-shadow(0 4px 12px #000)}
-@media(max-width:600px){
- .masthead{height:250px}
- .masthead .mascot{width:44%}
- .brandlogo{width:45%;margin-left:3%}
- .brandlogo img{max-height:220px}
+:root{
+  color-scheme:dark;
+  --gold:#f9bd2d;--gold-light:#ffe77b;--gold-deep:#9d5707;
+  --ink:#080706;--panel:#17110b;--panel-2:#24180d;--line:#80521c;
+  --text:#fffaf0;--muted:#c4b8a5;--green:#19c638;--red:#dc2f32;
+  --silver:#d4d7db;--shadow:0 12px 28px #000a,inset 0 1px #ffffff12;
 }
-/* Header rebuilt to match the supplied reference image */
-.masthead{height:330px!important;position:relative!important;display:block!important;overflow:hidden!important;border:0!important;border-bottom:2px solid #bd811e!important;border-radius:0 0 22px 22px!important;margin:0 -14px 12px!important;background:radial-gradient(ellipse at 22% 75%,#57300b 0,transparent 42%),linear-gradient(105deg,#100a04 0%,#0b0805 52%,#211306 100%)!important;box-shadow:inset 0 -22px 40px #0009,0 10px 28px #000!important}
-.masthead .mascot{position:absolute!important;left:4%!important;top:7%!important;bottom:0!important;width:37%!important;height:93%!important;display:block!important;overflow:hidden!important}
-.masthead .miner-art{display:block!important;width:100%!important;height:100%!important;max-height:none!important;object-fit:cover!important;object-position:center 52%!important;clip-path:inset(9% 0 3% 0)!important;filter:drop-shadow(0 0 16px #e89a25aa)!important}
-.masthead .brandlogo{position:absolute!important;left:43%!important;top:7%!important;width:37%!important;height:86%!important;max-width:none!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;z-index:2!important}
-.masthead .brandlogo img{display:block!important;width:100%!important;height:100%!important;max-height:none!important;object-fit:contain!important;object-position:center!important;clip-path:inset(9% 0 1% 0)!important;filter:drop-shadow(0 4px 12px #000)!important}
-.masthead .settings{position:absolute!important;right:3%!important;top:9%!important;z-index:4!important;color:#ffc52f!important;font-size:30px!important}
-@media(max-width:600px){.masthead{height:220px!important;margin-inline:-14px!important}.masthead .mascot{left:2%!important;top:7%!important;width:39%!important;height:93%!important}.masthead .brandlogo{left:42%!important;top:9%!important;width:43%!important;height:82%!important}.masthead .settings{right:3%!important;top:7%!important;font-size:24px!important}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,Arial,system-ui,sans-serif;background:#080706 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cpath d='M0 0L28 15 17 45 0 55M180 0L150 20 162 51 180 60M0 180L35 155 24 126 0 115M180 180L146 155 158 126 180 115' fill='none' stroke='%233c2815' stroke-width='12'/%3E%3C/svg%3E") repeat;background-size:180px}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px}
+.app{width:min(100%,980px);margin:0 auto;padding:0 14px 30px}
+.hero-header{height:clamp(155px,37vw,350px);position:relative;margin:0 -14px 12px;overflow:hidden;background:#100b06;border-bottom:2px solid #a56e20;box-shadow:0 9px 22px #0009}
+.hero-header>img{position:absolute;inset:0;width:100%;height:132%;object-fit:cover;object-position:center top}
+.gear-button{position:absolute;right:3%;top:7%;z-index:4;width:46px;height:46px;border:0;border-radius:50%;background:#100b08b8;color:#ffd34f;font-size:31px;line-height:1;box-shadow:0 2px 10px #0008}
+.gear-button:hover{background:#3a260e}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 17px}
+.nav-button{min-height:82px;border:2px solid #62482d;border-radius:18px;background:linear-gradient(145deg,#29221d,#0d0b09);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;font-weight:800;font-size:14px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s,filter .15s}
+.nav-button svg{width:29px;height:29px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.nav-button:hover{transform:translateY(-2px);border-color:#c48b34}
+.nav-button.active{color:#1b1103;border-color:#ffe17b;background:linear-gradient(180deg,#ffe66b,#f4b10b 68%,#b96800);box-shadow:inset 0 2px #fff8,0 0 16px #e9a91f77,0 5px 0 #713c00}
+.page{display:none;animation:fade-in .2s ease}
+.page.active{display:block}
+@keyframes fade-in{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:none}}
+.panel{margin:0 0 16px;padding:18px;border:2px solid #765021;border-radius:22px;background:linear-gradient(145deg,#24190ef5,#0a0807f8);box-shadow:inset 0 0 25px #d38a241b,0 9px 26px #000a}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.section-head h2{margin:0;font-size:clamp(18px,2.6vw,25px);font-weight:900;letter-spacing:-.35px}
+.rate-symbol{color:var(--gold);font-size:25px;margin-right:7px}
+.live-wrap{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.live{display:inline-flex;align-items:center;gap:7px;border:1px solid #159c24;border-radius:999px;padding:6px 12px;background:#063c0b;color:#76ff72;font-weight:900;font-size:13px}
+.live:before{content:"";width:10px;height:10px;border-radius:50%;background:#12e52a;box-shadow:0 0 12px #12e52a}
+.refresh-info{display:flex;align-items:center;gap:7px;color:#ddd4c7;font-size:11px;line-height:1.2}
+.refresh-info svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2.4}
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.price-card{min-width:0;min-height:146px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(84px,31%) 1fr;align-items:center;gap:8px;padding:14px;border-radius:19px;border:2px solid #f0b52b;background:radial-gradient(ellipse at 22% 50%,#8a590c 0,#382406 48%,#140d05 100%);box-shadow:inset 0 0 25px #ffbf3026,0 5px 12px #0009}
+.price-card.silver{border-color:#c7cbd0;background:radial-gradient(ellipse at 22% 50%,#777e84 0,#34383d 48%,#111214 100%);box-shadow:inset 0 0 25px #fff2,0 5px 12px #0009}
+.metal-art{width:100%;max-width:130px;filter:drop-shadow(0 7px 5px #0009)}
+.metal-art svg{width:100%;height:auto;display:block}
+.metal-info{min-width:0}
+.metal-name{display:block;color:#ffd34f;font-size:clamp(17px,3vw,26px);font-weight:1000;letter-spacing:.3px}
+.silver .metal-name{color:#fff}
+.price-kg{display:block;margin:4px 0 8px;font-size:clamp(16px,2.55vw,25px);font-weight:900;white-space:nowrap;letter-spacing:-.5px}
+.price-subline{display:flex;align-items:center;justify-content:space-between;gap:6px;color:#e2d8ca;font-size:clamp(11px,1.5vw,15px);white-space:nowrap}
+.change{display:inline-flex;align-items:center;justify-content:center;gap:2px;padding:4px 8px;border-radius:999px;background:linear-gradient(#20d13d,#087d1a);color:#fff;font-size:clamp(10px,1.35vw,14px);font-weight:900;box-shadow:0 0 10px #18c83366}
+.change.down{background:linear-gradient(#ef6a4e,#b51b1b)}
+.change.neutral{background:#4b443a}
+.price-meta{margin-top:12px;color:#c7b9a7;font-size:12px;line-height:1.45}
+.promo-wrap{position:relative;margin:16px 0 18px;border:2px solid #8c5b1c;border-radius:22px;overflow:hidden;background:#090b0d;box-shadow:inset 0 0 30px #e29a2733,0 10px 26px #000a}
+.promo-wrap picture,.promo-wrap img{display:block;width:100%}
+.promo-wrap img{width:100%;height:auto;max-height:410px;object-fit:cover;object-position:center}
+.promo-overlay{position:absolute;right:4%;bottom:7%;z-index:2}
+.gold-button{border:1px solid #ffe78b;border-radius:999px;padding:14px 28px;background:linear-gradient(180deg,#ffe66a,#f5b20a 65%,#b86600);color:#170f02;font-size:clamp(16px,2.4vw,22px);font-weight:1000;box-shadow:0 4px 0 #854700,0 0 17px #f0ad2b66,inset 0 1px #fff9;min-width:230px}
+.gold-button:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.game-preview{position:relative;overflow:hidden;border:2px solid #a36b1e;border-radius:17px;background:#08090d;line-height:0}
+.game-preview img{display:block;width:100%;height:auto;max-height:580px;object-fit:cover;object-position:center top}
+.game-home-button{display:flex;justify-content:center;position:relative;z-index:2;margin-top:-21px}
+.game-home-button .gold-button{min-width:min(52%,460px)}
+.board-panel{position:relative;overflow:hidden}
+.board-panel:after{content:"";position:absolute;right:-2%;bottom:-5%;width:43%;height:95%;background:url("treasure-cart.png") center bottom/contain no-repeat;opacity:.95;pointer-events:none;z-index:0}
+.board-inner{position:relative;z-index:1}
+.board-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+.board-heading h2{margin:0;font-size:clamp(19px,3vw,27px);font-weight:950}
+.board-period{border:1px solid #8c6942;border-radius:999px;padding:8px 15px;background:#24180d;color:#fff;font-size:12px;font-weight:800}
+.leader-list{display:grid;gap:7px;width:min(62%,570px)}
+.leader-row{min-width:0;display:grid;grid-template-columns:39px minmax(0,1fr) auto;align-items:center;gap:10px;padding:9px 13px;border:1px solid #62441c;border-radius:14px;background:linear-gradient(90deg,#392409ef,#181009ee);box-shadow:inset 0 1px #ffffff0d}
+.leader-row.rank-1{border-color:#eebc24;background:linear-gradient(90deg,#72500cef,#261806f0)}
+.leader-row.rank-2{border-color:#a9adb2;background:linear-gradient(90deg,#5c6064ef,#1a1b1def)}
+.leader-row.rank-3{border-color:#a96d36;background:linear-gradient(90deg,#633919ef,#1c1008ef)}
+.rank-number{color:#fff;font-weight:1000;font-size:17px;text-align:center}
+.rank-1 .rank-number{color:#ffe15b}.rank-2 .rank-number{color:#e6e8ed}.rank-3 .rank-number{color:#f3a15d}
+.leader-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:850;font-size:15px}
+.leader-score{color:#ffdc58;font-size:17px;font-weight:1000;white-space:nowrap}
+.empty-board{width:min(62%,570px);padding:22px 14px;text-align:center;border:1px dashed #80602f;border-radius:14px;background:#140e08d9;color:#ddc9a8;line-height:1.5}
+.tab-intro{text-align:center;padding:20px 8px 22px}
+.eyebrow{color:#e6b94d;letter-spacing:3px;font-size:11px;font-weight:900}
+.tab-intro h1{margin:9px 0 8px;font:900 clamp(31px,5vw,54px)/1.03 Georgia,serif;color:#fff}
+.tab-intro h1 span{color:#ffd04b}
+.tab-intro p{max-width:650px;margin:0 auto;color:#c7b9a7;line-height:1.55}
+.rates-large .price-card{min-height:190px}
+.rates-large .metal-art{max-width:160px}
+.rates-large .price-kg{font-size:clamp(21px,3.3vw,33px)}
+.disclaimer{color:#c6b9a8;font-size:12px;line-height:1.55;margin:15px 0 0}
+.game-panel{padding:14px;background:linear-gradient(145deg,#1b1711,#070707);border-color:#a36b1e}
+.game-panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 4px 10px}
+.game-panel-top h2{margin:0;color:#ffd34f;font-size:22px}
+.game-panel-top p{margin:0;color:#c9bba7;font-size:12px}
+.game-hud{position:absolute;left:39%;right:13%;top:3%;z-index:3;display:flex;justify-content:center;align-items:center;gap:0;border:2px solid #81501b;border-radius:11px;background:#160d07e8;box-shadow:0 3px 8px #0009}
+.hud-cell{flex:1;text-align:center;padding:8px 5px;border-right:1px solid #704a1c}
+.hud-cell:last-child{border:0}
+.hud-cell span{display:block;font-size:12px;color:#eee}
+.hud-cell b{display:block;font-size:19px;color:#ffe06a}
+#lifeCount{font-size:19px;letter-spacing:2px;color:#f33}
+.game-frame{position:relative;overflow:hidden;border:2px solid #98621c;border-radius:15px;background:#080b0f;line-height:0}
+#gameCanvas{display:block;width:100%;height:auto;aspect-ratio:900/520;background:radial-gradient(ellipse at 50% 50%,#26313b,#090a0d 75%);touch-action:none}
+#gamePreview{display:block;width:100%;height:auto;aspect-ratio:910/520;object-fit:cover;object-position:top center}
+.game-pause{position:absolute;top:14px;right:14px;z-index:4;width:54px;height:54px;border:2px solid #f9c342;border-radius:13px;background:linear-gradient(#3b260b,#100b06);color:#ffd34f;font-size:25px;display:none}
+.game-frame.running .game-pause{display:block}
+.game-frame.running #gamePreview{display:none}
+.game-frame.running #gameCanvas{display:block}
+.game-frame:not(.running) #gameCanvas{display:none}
+.game-frame.running .game-hud{left:4%;right:18%;top:3%}
+.controls{display:flex;justify-content:center;align-items:center;gap:14px;margin:12px 0 4px}
+.move-button{width:92px;height:54px;border:2px solid #bf882b;border-radius:14px;background:linear-gradient(#392918,#130d07);color:#ffda60;font-size:28px;font-weight:900;touch-action:none}
+.move-button:active{background:#765018}
+.game-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:13px}
+.game-actions .gold-button{min-width:230px}
+.secondary-button{border:1px solid #87653a;border-radius:999px;padding:12px 20px;background:#21170d;color:#f7d27c;font-weight:850}
+.how-to{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.how-item{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #59401f;border-radius:12px;background:#110d08;color:#e8dcc8;font-size:12px;line-height:1.3}
+.how-item b{font-size:20px}
+.submit-box{margin:14px auto 0;max-width:510px;padding:16px;border:1px solid #8e601e;border-radius:15px;background:#160f08}
+.submit-box h3{margin:0 0 7px;color:#ffda62}
+.submit-box p{margin:0 0 11px;color:#cdbda7;font-size:12px;line-height:1.45}
+.submit-row{display:flex;gap:8px}
+.submit-row input,.setting-row input{min-width:0;flex:1;border:1px solid #775628;border-radius:10px;background:#080706;color:#fff;padding:12px}
+.submit-row .gold-button{min-width:130px;font-size:14px;padding:11px 15px}
+.score-filter{display:flex;gap:8px}
+.filter-button{border:1px solid #75542a;border-radius:999px;background:#1c140b;color:#e6d1b0;padding:9px 15px;font-size:12px;font-weight:850}
+.filter-button.active{background:linear-gradient(#ffe36b,#ce8600);border-color:#ffe17b;color:#1b1000}
+.score-page-list{display:grid;gap:9px}
+.score-page-list .leader-row{padding:13px 17px;grid-template-columns:48px minmax(0,1fr) auto}
+.score-page-list .leader-name{font-size:17px}
+.score-page-list .leader-score{font-size:19px}
+.score-summary{margin-top:12px;color:#c8b89f;font-size:12px}
+.footer{text-align:center;color:#988a76;font-size:12px;padding:19px 0 4px;border-top:1px solid #5b401d;margin-top:22px}
+.modal-backdrop{position:fixed;inset:0;z-index:20;background:#000c;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-backdrop.open{display:flex}
+.settings-modal{width:min(100%,480px);padding:22px;border:2px solid #966321;border-radius:20px;background:linear-gradient(145deg,#291c0e,#090706);box-shadow:0 20px 60px #000}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.modal-head h2{margin:0;color:#ffd34f}
+.close-modal{border:1px solid #76552a;background:#160f08;color:#fff;border-radius:9px;width:38px;height:38px;font-size:21px}
+.setting-row{margin:12px 0}
+.setting-row label{display:block;margin-bottom:6px;color:#e9d7b7;font-size:13px;font-weight:800}
+.setting-note{color:#a99a84;font-size:12px;line-height:1.45;margin:10px 0}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.status-message{min-height:18px;color:#f3cf6c;font-size:12px;margin-top:9px}
+.hidden{display:none!important}
+@media(max-width:720px){
+ .app{padding-inline:11px}
+ .hero-header{margin-inline:-11px;height:clamp(142px,38vw,235px)}
+ .nav{gap:6px;margin:10px 0 13px}
+ .nav-button{min-height:67px;border-radius:14px;font-size:12px}
+ .nav-button svg{width:25px;height:25px}
+ .panel{padding:13px;border-radius:18px}
+ .section-head{align-items:flex-start;flex-wrap:wrap}
+ .section-head h2{font-size:18px}
+ .live-wrap{margin-left:auto}
+ .prices{gap:7px}
+ .price-card{min-height:125px;padding:10px 7px;grid-template-columns:29% 1fr;gap:5px;border-radius:15px}
+ .metal-art{max-width:90px}
+ .metal-name{font-size:17px}
+ .price-kg{font-size:clamp(14px,3.4vw,20px);letter-spacing:-.7px;margin:4px 0 7px}
+ .price-subline{font-size:10px;gap:3px}
+ .change{font-size:9px;padding:4px 5px}
+ .refresh-info{font-size:10px}
+ .refresh-info svg{width:19px}
+ .promo-wrap{margin:13px 0 15px;border-radius:17px}
+ .promo-wrap img{max-height:none}
+ .game-home-button{margin-top:-16px}
+ .game-home-button .gold-button{min-width:64%;font-size:16px;padding:12px 14px}
+ .board-panel:after{width:43%;height:72%;right:-8%;opacity:.72}
+ .board-heading{align-items:flex-start;flex-wrap:wrap}
+ .board-heading h2{font-size:19px}
+ .board-period{font-size:10px;padding:7px 10px}
+ .leader-list,.empty-board{width:70%}
+ .leader-row{grid-template-columns:28px minmax(0,1fr) auto;gap:6px;padding:8px}
+ .leader-name{font-size:12px}
+ .leader-score{font-size:13px}
+ .rank-number{font-size:14px}
+ .tab-intro{padding:12px 5px 17px}
+ .rates-large .price-card{min-height:145px}
+ .game-panel-top{align-items:flex-start;flex-direction:column}
+ .game-panel-top h2{font-size:19px}
+ .game-hud{left:4%;right:18%;top:3%}
+ .hud-cell{padding:5px 3px}
+ .hud-cell span{font-size:9px}
+ .hud-cell b{font-size:15px}
+ .game-frame.running .game-hud{left:3%;right:18%;top:3%}
+ .game-pause{width:43px;height:43px;top:9px;right:9px}
+ .controls{gap:10px}
+ .move-button{width:78px;height:49px}
+ .how-to{grid-template-columns:repeat(2,1fr)}
+ .score-page-list .leader-row{grid-template-columns:37px minmax(0,1fr) auto}
+ .score-page-list .leader-name{font-size:14px}
+ .score-page-list .leader-score{font-size:16px}
+}
+@media(max-width:420px){
+ .live-wrap{width:100%;justify-content:flex-end}
+ .price-card{grid-template-columns:25% 1fr;padding:8px 5px}
+ .metal-art{max-width:75px}
+ .price-kg{font-size:13px}
+ .price-subline{font-size:9px}
+ .change{font-size:8px;padding:3px 4px}
+ .leader-list,.empty-board{width:76%}
+ .board-panel:after{width:48%;right:-14%;opacity:.65}
+ .nav-button{min-height:62px;font-size:11px}
+}
+@media(min-width:721px){
+ .promo-wrap img{max-height:400px}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="hero-header" aria-label="De Goudmarsjan">
+    <img src="goldrushheader.png" alt="De Goudmarsjan — edelmetalen">
+    <button class="gear-button" id="openSettings" aria-label="Instellingen">⚙</button>
+  </header>
 
-.game-banner{width:100%;margin:0 auto 14px;overflow:hidden;border-radius:14px;border:1px solid #a16b1e;background:#090705;line-height:0}
-.game-banner img{display:block;width:100%;height:auto;max-height:260px;object-fit:contain;object-position:center}
-#page-game .game-head h2{display:none!important}
-@media(max-width:600px){.game-banner{margin-bottom:10px}.game-banner img{max-height:190px}}
+  <nav class="nav" aria-label="Hoofdnavigatie">
+    <button class="nav-button active" data-page="home">
+      <svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5.5 10v10h13V10M9 20v-6h6v6"/></svg><span>Home</span>
+    </button>
+    <button class="nav-button" data-page="rates">
+      <svg viewBox="0 0 24 24"><path d="M3 19h18M5 16l5-5 4 3 6-8M15 6h5v5"/><path d="M5 19v-3M10 19v-8M15 19v-5M20 19v-9"/></svg><span>Koersen</span>
+    </button>
+    <button class="nav-button" data-page="game">
+      <svg viewBox="0 0 24 24"><path d="M6 9h12a4 4 0 0 1 3.8 5.3l-1 3a2 2 0 0 1-3.2 1l-3-2.3h-5.2l-3 2.3a2 2 0 0 1-3.2-1l-1-3A4 4 0 0 1 6 9Z"/><path d="M8 12v4M6 14h4M16 13h.01M18 15h.01"/></svg><span>Gold Rush</span>
+    </button>
+    <button class="nav-button" data-page="scores">
+      <svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0V4ZM8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4M12 13v5M8 21h8M9 18h6"/></svg><span>Scorebord</span>
+    </button>
+  </nav>
 
-/* Use the uploaded complete branded header in the original masthead position */
-.site-header{height:auto!important;aspect-ratio:352/166!important;position:relative!important;display:block!important;overflow:hidden!important;margin:0 -14px 12px!important;padding:0!important;border:1px solid #9b681e!important;border-radius:0 0 20px 20px!important;background:#080604!important;box-shadow:0 8px 24px #0009!important}
-.site-header-image{display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
-.site-header .header-hotspots{position:absolute!important;inset:0!important;display:grid!important;grid-template-columns:21% 22% 24% 33%!important;align-items:end!important;height:100%!important;z-index:5!important}
-.site-header .header-hotspots button{height:24%!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;cursor:pointer!important}
-.site-header .header-hotspots button:focus-visible{outline:2px solid #ffd34f!important;outline-offset:-3px!important}
-@media(max-width:600px){.site-header{margin-inline:-12px!important}}
-</style></head><body><main class="wrap">
-<header class="masthead site-header"><img class="site-header-image" src="goldrushheader.png" alt="De Goudmarsjan – mijnwerker, logo en navigatie"><div class="header-hotspots"><button data-tab="home" aria-label="Home"></button><button data-tab="rates" aria-label="Koersen"></button><button data-tab="game" aria-label="Gold Rush"></button><button data-tab="game" aria-label="Scorebord" data-scoreboard="true"></button></div></header>
-<section class="tabpage active" id="page-home">
-<div class="hero homehero"><div class="eyebrow">DE GOUDMARSJAN · EDELMETALEN</div><h1>Wete ni wa et is?<br><span style="color:#ffd34f">Goudmarsjan is nooit ni mis!</span></h1><p>Volg de actuele edelmetaalkoersen en ontdek Gold Rush.</p></div>
-<div class="home-rates panel"><div class="section-head"><h2>▮ Actuele Edelmetaal Koersen</h2><span class="live">● LIVE</span></div><div class="prices"><div class="price"><span class="metal">GOUD</span><strong id="goldHome">Laden…</strong><small>per kg</small></div><div class="price silver"><span class="metal">ZILVER</span><strong id="silverHome">Laden…</strong><small>per kg</small></div></div><button class="btn secondarytab" data-goto="rates">Bekijk alle koersen</button></div>
-<a class="rush-promo" href="#" data-goto="game" aria-label="Speel Gold Rush"><img src="goldrush-promo.png" alt="Gold Rush – verzamel goud en vermijd valstrikken"></a>
-<div class="panel leaderboard" id="leaderboard"><div class="game-head"><h2 style="margin:0">🏆 Top 10 spelers</h2><span class="hint" id="boardStatus">Scorebord laden…</span></div><div class="leader-list" id="homeLeaders"><div class="empty">Scorebord wordt geladen…</div></div></div>
-</section>
-<section class="tabpage" id="page-rates"><div class="hero"><div class="eyebrow">MARKTOVERZICHT</div><h1>Goud & zilver<br><span style="color:#ffd34f">in realtime.</span></h1><p>Internationale spotprijzen, omgerekend naar euro per kilogram.</p></div><div class="panel rates" id="rates"><h2>📊 Actuele edelmetaalkoersen <span class="live">● LIVE</span></h2><div class="prices"><div class="price"><span class="metal">GOUD · XAU</span><strong id="gold">Laden…</strong><small>Euro per kilogram</small></div><div class="price"><span class="metal">ZILVER · XAG</span><strong id="silver">Laden…</strong><small>Euro per kilogram</small></div></div><p class="hint" id="updated">Koersen ophalen…</p><p class="notice">Indicatieve internationale spotprijzen omgerekend van USD per troy ounce naar EUR per kilogram. Vernieuwing gebeurt automatisch om de minuut. Dit zijn geen gegarandeerde aankoopprijzen.</p></div>
-</section>
-<section class="tabpage" id="page-game"><div class="panel game" id="game"><div class="game-head"><h2 style="margin:0">Daag jezelf uit</h2><span class="hint">← → of A / D om te bewegen</span></div><canvas id="gameCanvas" width="900" height="520" aria-label="Gold Rush platformspel"></canvas><div class="controls"><button class="move" id="left" aria-label="Links">←</button><span class="hint" style="align-self:center">Op gsm: gebruik de pijlen</span><button class="move" id="right" aria-label="Rechts">→</button></div><div class="actions"><button class="btn" id="start">Start afdaling</button><button class="btn" id="again" disabled>Opnieuw spelen</button></div><div id="submitBox" class="hidden"><p style="color:var(--gold2);font-weight:700;margin-bottom:4px">Game over! Vul je gebruikersnaam in om je score op het scorebord te plaatsen.</p><div class="formrow"><input id="username" maxlength="18" placeholder="Jouw gebruikersnaam" autocomplete="nickname"><button class="btn" id="submit">Score indienen</button></div><p class="notice">Je gebruikersnaam en score worden openbaar getoond.</p></div><p class="notice" id="gameStatus">Verzamel goud, vermijd rode tegels en probeer zo diep mogelijk te geraken.</p></div>
-<div class="panel leaderboard" id="game-leaderboard"><div class="game-head"><h2 style="margin:0">🏆 Top 10 spelers</h2><span class="hint" id="boardStatus">Scorebord laden…</span></div><div class="leader-list" id="leaders"><div class="empty">Scorebord wordt geladen…</div></div></div>
-</section></section><footer class="footer">© De Goudmarsjan – Edelmetalen · Wete ni wa et is? Goudmarsjan is nooit ni mis!</footer></main>
+  <section class="page active" id="page-home">
+    <section class="panel home-rates">
+      <div class="section-head">
+        <h2><span class="rate-symbol">▮</span>Actuele Edelmetaal Koersen</h2>
+        <div class="live-wrap"><span class="live">LIVE</span><span class="refresh-info"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 2M4 16l2 2a7 7 0 0 0 12.5-3"/></svg><span id="homeUpdate">Vernieuwt<br>automatisch</span></span></div>
+      </div>
+      <div class="prices">
+        <article class="price-card gold">
+          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><defs><linearGradient id="goldA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff6a4"/><stop offset=".38" stop-color="#ffca31"/><stop offset=".72" stop-color="#d88705"/><stop offset="1" stop-color="#8d4a00"/></linearGradient></defs><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="url(#goldA)" stroke="#ffdf61" stroke-width="2"/><path d="M37 30 59 45 103 91 30 91 5 67Z" fill="#e89c09"/><path d="M37 30 99 30 133 67 59 67Z" fill="#ffdc4d"/><path d="M32 44 62 7 121 7 92 44Z" fill="url(#goldA)" stroke="#ffeb81" stroke-width="2"/><path d="M62 7 92 44 32 44Z" fill="#c57a08"/><path d="M62 7 121 7 92 44Z" fill="#ffe36b"/><path d="M53 17h54" stroke="#fff9c8" stroke-width="2" opacity=".8"/></svg></div>
+          <div class="metal-info"><span class="metal-name">GOUD</span><strong class="price-kg" id="goldKgHome">Laden…</strong><div class="price-subline"><span id="goldGramHome">— / g</span><span class="change neutral" id="goldChangeHome">—</span></div></div>
+        </article>
+        <article class="price-card silver">
+          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><defs><linearGradient id="silverA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".42" stop-color="#c5cbd2"/><stop offset=".75" stop-color="#7b828a"/><stop offset="1" stop-color="#454a50"/></linearGradient></defs><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="url(#silverA)" stroke="#eff2f5" stroke-width="2"/><path d="M37 30 59 45 103 91 30 91 5 67Z" fill="#858d96"/><path d="M37 30 99 30 133 67 59 67Z" fill="#e4e8ec"/><path d="M32 44 62 7 121 7 92 44Z" fill="url(#silverA)" stroke="#fff" stroke-width="2"/><path d="M62 7 92 44 32 44Z" fill="#9da5ae"/><path d="M62 7 121 7 92 44Z" fill="#f4f6f8"/><path d="M53 17h54" stroke="#fff" stroke-width="2" opacity=".8"/></svg></div>
+          <div class="metal-info"><span class="metal-name">ZILVER</span><strong class="price-kg" id="silverKgHome">Laden…</strong><div class="price-subline"><span id="silverGramHome">— / g</span><span class="change neutral" id="silverChangeHome">—</span></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="promo-wrap" aria-label="Gold Rush">
+      <picture>
+        <source media="(max-width:720px)" srcset="goldrush-promo.png">
+        <img src="game-scene.png" alt="Gold Rush — de mijnenafdaling">
+      </picture>
+    </section>
+    <div class="game-home-button"><button class="gold-button" id="playFromHome">▶ SPEEL GOLD RUSH</button></div>
+
+    <section class="panel board-panel">
+      <div class="board-inner">
+        <div class="board-heading"><h2><span style="color:#ffd34f">🏆</span> Top 10 – Gold Rush</h2><span class="board-period">Beste spelers van deze maand</span></div>
+        <div class="leader-list" id="homeLeaders"><div class="empty-board">Scorebord wordt geladen…</div></div>
+      </div>
+    </section>
+  </section>
+
+  <section class="page" id="page-rates">
+    <div class="tab-intro"><div class="eyebrow">DE GOUDMARSJAN · MARKTOVERZICHT</div><h1>Actuele <span>edelmetaalkoersen</span></h1><p>Volg de internationale goud- en zilverprijzen. De koersen worden automatisch vernieuwd.</p></div>
+    <section class="panel rates-large">
+      <div class="section-head"><h2>📊 Goud & zilver</h2><span class="live">LIVE</span></div>
+      <div class="prices">
+        <article class="price-card gold">
+          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="#d8950a" stroke="#ffdf61" stroke-width="2"/><path d="M37 30 99 30 133 67 59 67Z" fill="#ffdc4d"/><path d="M32 44 62 7 121 7 92 44Z" fill="#f9ba22" stroke="#ffeb81" stroke-width="2"/><path d="M62 7 121 7 92 44Z" fill="#ffe36b"/></svg></div>
+          <div class="metal-info"><span class="metal-name">GOUD · XAU</span><strong class="price-kg" id="goldKgRates">Laden…</strong><div class="price-subline"><span id="goldGramRates">— per gram</span><span class="change neutral" id="goldChangeRates">—</span></div></div>
+        </article>
+        <article class="price-card silver">
+          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="#828a93" stroke="#eef0f2" stroke-width="2"/><path d="M37 30 99 30 133 67 59 67Z" fill="#e4e8ec"/><path d="M32 44 62 7 121 7 92 44Z" fill="#bdc5ce" stroke="#fff" stroke-width="2"/><path d="M62 7 121 7 92 44Z" fill="#f4f6f8"/></svg></div>
+          <div class="metal-info"><span class="metal-name">ZILVER · XAG</span><strong class="price-kg" id="silverKgRates">Laden…</strong><div class="price-subline"><span id="silverGramRates">— per gram</span><span class="change neutral" id="silverChangeRates">—</span></div></div>
+        </article>
+      </div>
+      <div class="price-meta" id="ratesUpdated">Koersen ophalen…</div>
+      <p class="disclaimer">Deze bedragen zijn indicatieve internationale spotprijzen, omgerekend van USD per troy ounce naar euro per kilogram en gram. Ze zijn geen gegarandeerde aankoop- of verkoopprijzen. De werkelijke prijs hangt onder meer af van zuiverheid, gewicht en marktomstandigheden.</p>
+      <button class="secondary-button" id="refreshRates" style="margin-top:13px">↻ Koersen vernieuwen</button>
+    </section>
+  </section>
+
+  <section class="page" id="page-game">
+    <div class="tab-intro"><div class="eyebrow">DE GOUDMARSJAN PRESENTEERT</div><h1>GOLD <span>RUSH</span></h1><p>De mijnenafdaling. Verzamel goud, ontwijk de rode rotsen en probeer zo diep mogelijk te geraken.</p></div>
+    <section class="panel game-panel">
+      <div class="game-panel-top"><h2>⛏ GOLD RUSH — DE MIJNENAFDALING</h2><p>Beweeg links en rechts om je mijnwerker te sturen.</p></div>
+      <div class="game-frame" id="gameFrame">
+        <img id="gamePreview" src="game-scene.png" alt="Gold Rush spelvoorbeeld">
+        <canvas id="gameCanvas" width="900" height="520" aria-label="Gold Rush mijnspel"></canvas>
+        <div class="game-hud" id="gameHud">
+          <div class="hud-cell"><span>Score</span><b id="hudScore">0</b></div>
+          <div class="hud-cell"><span>Diepte</span><b><span id="hudDepth">0</span> m</b></div>
+          <div class="hud-cell"><span>Levens</span><b id="lifeCount">❤️❤️❤️</b></div>
+        </div>
+        <button class="game-pause" id="pauseGame" aria-label="Pauzeren">Ⅱ</button>
+      </div>
+      <div class="controls">
+        <button class="move-button" id="moveLeft" aria-label="Links">←</button>
+        <span style="align-self:center;color:#c9bba7;font-size:12px">Gebruik de pijlen of A / D</span>
+        <button class="move-button" id="moveRight" aria-label="Rechts">→</button>
+      </div>
+      <div class="game-actions">
+        <button class="gold-button" id="startGame">▶ START DE MIJNENAFDALING</button>
+        <button class="secondary-button" id="restartGame" disabled>↻ Opnieuw spelen</button>
+      </div>
+      <div class="how-to">
+        <div class="how-item"><b>← →</b><span>Beweeg links en rechts</span></div>
+        <div class="how-item"><b>🪙</b><span>Verzamel goud voor punten</span></div>
+        <div class="how-item"><b>🟩</b><span>Veilige platformen</span></div>
+        <div class="how-item"><b>🟥</b><span>Rode rotsen kosten een leven</span></div>
+      </div>
+      <div class="submit-box hidden" id="submitBox">
+        <h3>Mijn afdaling is voorbij!</h3>
+        <p>Bewaar je score op het openbare Gold Rush-scorebord. Kies je spelersnaam.</p>
+        <div class="submit-row"><input id="playerName" maxlength="18" placeholder="Jouw spelersnaam" autocomplete="nickname"><button class="gold-button" id="submitScore">SCORE OPSLAAN</button></div>
+        <div class="status-message" id="submitStatus"></div>
+      </div>
+      <p class="disclaimer" id="gameStatus">Druk op start en begin aan je afdaling. Je hebt drie levens.</p>
+    </section>
+  </section>
+
+  <section class="page" id="page-scores">
+    <div class="tab-intro"><div class="eyebrow">DE MIJNWERKERS VAN DE MAAND</div><h1>Gold Rush <span>Scorebord</span></h1><p>Wie daalt het diepst af en verzamelt het meeste goud?</p></div>
+    <section class="panel">
+      <div class="board-heading"><h2>🏆 Top 10 mijnwerkers</h2><div class="score-filter"><button class="filter-button active" data-filter="month">Deze maand</button><button class="filter-button" data-filter="all">Alles</button></div></div>
+      <div class="score-page-list" id="scoreLeaders"><div class="empty-board">Scorebord wordt geladen…</div></div>
+      <div class="score-summary" id="scoreSummary">Scores laden…</div>
+    </section>
+    <div class="game-home-button"><button class="gold-button" id="playFromScores">⛏ SPEEL MEE</button></div>
+  </section>
+
+  <footer class="footer">© De Goudmarsjan — Edelmetalen<br><strong>Wete ni wa et is? Goudmarsjan is nooit ni mis!</strong></footer>
+</main>
+
+<div class="modal-backdrop" id="settingsBackdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="settings-modal">
+    <div class="modal-head"><h2 id="settingsTitle">⚙ Instellingen</h2><button class="close-modal" id="closeSettings" aria-label="Sluiten">×</button></div>
+    <div class="setting-row"><label for="profileName">Jouw spelersnaam</label><input id="profileName" maxlength="18" placeholder="Bijvoorbeeld: GoudHunter"></div>
+    <p class="setting-note">Deze naam wordt gebruikt wanneer je een Gold Rush-score indient. Je kunt hem altijd aanpassen.</p>
+    <div class="setting-row"><label><input type="checkbox" id="soundToggle" checked style="width:auto;margin-right:7px"> Geluidseffecten inschakelen</label></div>
+    <div class="modal-actions"><button class="secondary-button" id="cancelSettings">Annuleren</button><button class="gold-button" id="saveSettings">OPSLAAN</button></div>
+    <div class="status-message" id="settingsStatus"></div>
+  </div>
+</div>
+
 <script>
-document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));function showTab(name){document.querySelectorAll('.tabpage').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));document.querySelectorAll('.nav .tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));if(name==='game'&&typeof draw==='function')draw();window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();showTab(b.dataset.goto)}));
-const SUPABASE_URL="https://mjfyarwabbtdezctrxfp.supabase.co",SUPABASE_ANON_KEY="sb_publishable_mj_YFZgUnC3DR9lzDgWlYA_CUUozF43";
-const $=id=>document.getElementById(id),fmt=n=>new Intl.NumberFormat('nl-BE',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
-const TROY_OUNCE_TO_KG=32.1507466;
-async function loadPrices(){try{const [g,s,fx]=await Promise.all([fetch('https://api.gold-api.com/price/XAU',{cache:'no-store'}),fetch('https://api.gold-api.com/price/XAG',{cache:'no-store'}),fetch('https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR',{cache:'no-store'})]);if(!g.ok||!s.ok||!fx.ok)throw Error('Koersbron niet beschikbaar');const [gd,sd,fd]=await Promise.all([g.json(),s.json(),fx.json()]);const gold=Number(gd.price??gd.ask??gd.value),silver=Number(sd.price??sd.ask??sd.value),eur=Number(fd.rates?.EUR);if(![gold,silver,eur].every(Number.isFinite))throw Error('Ongeldige koers');$('gold').textContent=fmt(gold*eur*TROY_OUNCE_TO_KG);$('silver').textContent=fmt(silver*eur*TROY_OUNCE_TO_KG);$('goldHome').textContent=fmt(gold*eur*TROY_OUNCE_TO_KG);$('silverHome').textContent=fmt(silver*eur*TROY_OUNCE_TO_KG);$('updated').textContent='Laatst bijgewerkt: '+new Date().toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' · Automatische update elke 60 seconden.'}catch(e){$('updated').textContent='Koersen tijdelijk niet beschikbaar. De app probeert automatisch opnieuw.'}}
+"use strict";
+const SUPABASE_URL="https://mjfyarwabbtdezctrxfp.supabase.co";
+const SUPABASE_KEY="sb_publishable_mj_YFZgUnC3DR9lzDgWlYA_CUUozF43";
+const $=id=>document.getElementById(id);
+const numberFormat=new Intl.NumberFormat("nl-BE",{maximumFractionDigits:2});
+const euroFormat=new Intl.NumberFormat("nl-BE",{style:"currency",currency:"EUR",minimumFractionDigits:2,maximumFractionDigits:2});
+const OUNCE_TO_KG=32.1507466;
+let lastQuotes={gold:null,silver:null};
+let allScores=[];
+let scoreFilter="month";
+let game={active:false,paused:false,ended:false,score:0,depth:0,lives:3,camera:0,lastTime:0,raf:0,player:null,platforms:[],coins:[],keys:{left:false,right:false},invulnerableUntil:0,damageFlash:0};
+let ctx=null,canvas=null,canvasScale=1;
+const savedName=localStorage.getItem("gm_player_name")||"";
+const quoteCache=(()=>{try{return JSON.parse(localStorage.getItem("gm_quote_cache")||"{}")}catch(e){return {}}})();
+const soundEnabled=localStorage.getItem("gm_sound")!=="false";
+
+function showPage(name){
+ document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));
+ document.querySelectorAll(".nav-button").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
+ if(name==="scores"){renderScores();loadScores()}
+ if(name==="game"&&game.active)drawGame();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+$("playFromHome").addEventListener("click",()=>{showPage("game");startGame()});
+$("playFromScores").addEventListener("click",()=>{showPage("game");startGame()});
+
+function renderPrice(value,kgId,gramId){
+ if(!Number.isFinite(value)||value<=0){$(kgId).textContent="Niet beschikbaar";$(gramId).textContent="—";return}
+ $(kgId).textContent=euroFormat.format(value)+" / kg";
+ $(gramId).textContent=euroFormat.format(value/1000)+" / g";
+}
+function setChange(id,current,previous){
+ const el=$(id);
+ if(!Number.isFinite(previous)||previous<=0){el.textContent="—";el.className="change neutral";return}
+ const pct=((current-previous)/previous)*100;
+ el.textContent=(pct>=0?"+":"")+pct.toFixed(2).replace(".",",")+"% "+(pct>=0?"↑":"↓");
+ el.className="change "+(pct>0.0001?"":pct<-.0001?"down":"neutral");
+}
+function getPrevious(key){const p=Number(quoteCache[key]);return Number.isFinite(p)&&p>0?p:null}
+async function loadPrices(){
+ const ids=["homeUpdate","ratesUpdated"];
+ ids.forEach(id=>$(id).textContent="Koersen ophalen…");
+ try{
+  const responses=await Promise.all([
+   fetch("https://api.gold-api.com/price/XAU",{cache:"no-store"}),
+   fetch("https://api.gold-api.com/price/XAG",{cache:"no-store"}),
+   fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR",{cache:"no-store"})
+  ]);
+  if(responses.some(r=>!r.ok))throw new Error("Koersbron niet bereikbaar");
+  const [goldData,silverData,fxData]=await Promise.all(responses.map(r=>r.json()));
+  const goldUsd=Number(goldData.price??goldData.ask??goldData.value);
+  const silverUsd=Number(silverData.price??silverData.ask??silverData.value);
+  const usdToEur=Number(fxData.rates?.EUR);
+  if(![goldUsd,silverUsd,usdToEur].every(v=>Number.isFinite(v)&&v>0))throw new Error("Ongeldige koersgegevens");
+  const gold=goldUsd*usdToEur*OUNCE_TO_KG;
+  const silver=silverUsd*usdToEur*OUNCE_TO_KG;
+  const prevGold=getPrevious("gold"),prevSilver=getPrevious("silver");
+  renderPrice(gold,"goldKgHome","goldGramHome");
+  renderPrice(silver,"silverKgHome","silverGramHome");
+  renderPrice(gold,"goldKgRates","goldGramRates");
+  renderPrice(silver,"silverKgRates","silverGramRates");
+  setChange("goldChangeHome",gold,prevGold);setChange("silverChangeHome",silver,prevSilver);
+  setChange("goldChangeRates",gold,prevGold);setChange("silverChangeRates",silver,prevSilver);
+  quoteCache.gold=gold;quoteCache.silver=silver;quoteCache.updatedAt=Date.now();
+  localStorage.setItem("gm_quote_cache",JSON.stringify(quoteCache));
+  const stamp=new Date().toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"});
+  $("homeUpdate").innerHTML="Vernieuwd<br>"+stamp;
+  $("ratesUpdated").textContent="Laatst bijgewerkt: "+stamp+" · Automatische vernieuwing elke 60 seconden.";
+ }catch(error){
+  $("homeUpdate").textContent="Tijdelijk offline";
+  $("ratesUpdated").textContent="De actuele koersen zijn tijdelijk niet beschikbaar. De app probeert automatisch opnieuw.";
+  if(!quoteCache.gold||!quoteCache.silver){$("goldKgHome").textContent="—";$("silverKgHome").textContent="—";$("goldKgRates").textContent="—";$("silverKgRates").textContent="—"}
+ }
+}
+$("refreshRates").addEventListener("click",loadPrices);
 loadPrices();setInterval(loadPrices,60000);
-const canvas=$('gameCanvas'),ctx=canvas.getContext('2d');let active=false,raf=0,score=0,depth=0,lives=3,keys={left:false,right:false},player,platforms,coins,camera=0,last=0,canSubmit=false,standUntil=0,timeLeft=30,gameStart=0;
-function resizeGame(){const w=canvas.clientWidth||900,h=canvas.clientHeight||460,d=devicePixelRatio||1;if(canvas.width!==Math.round(w*d)||canvas.height!==Math.round(h*d)){canvas.width=Math.round(w*d);canvas.height=Math.round(h*d);ctx.setTransform(d,0,0,d,0,0)}}
-function makePlatform(y){const w=75+Math.random()*50;return{x:8+Math.random()*Math.max(1,canvas.clientWidth-w-16),y,w,h:15,type:Math.random()<.18?'bad':Math.random()<.3?'gold':'safe',broken:false}}
-function initWorld(){resizeGame();const w=canvas.clientWidth,h=canvas.clientHeight;player={x:w/2-15,y:25,vy:0,w:30,h:43};platforms=[{x:w/2-70,y:125,w:140,h:16,type:'safe',broken:false}];let y=230;while(y<h+850){platforms.push(makePlatform(y));y+=105+Math.random()*35}coins=[];for(let y=190;y<h+850;y+=145)coins.push({x:25+Math.random()*(w-50),y,r:11,got:false});camera=0;score=0;depth=0;lives=3;standUntil=0;timeLeft=30;gameStart=performance.now();updateStats()}
-function updateStats(){$('score').textContent=score;$('depth').textContent=Math.floor(depth/10);$('lives').textContent=lives;$('timer').textContent=Math.max(0,Math.ceil(timeLeft))}
-function miner(x,y){ctx.save();ctx.translate(x+15,y+21);ctx.fillStyle='#e8a36c';ctx.beginPath();ctx.arc(0,-8,11,0,7);ctx.fill();ctx.fillStyle='#633719';ctx.beginPath();ctx.arc(0,-16,14,Math.PI,0);ctx.fill();ctx.fillStyle='#f5bf32';ctx.fillRect(-13,-19,26,5);ctx.fillStyle='#fff1a5';ctx.beginPath();ctx.arc(9,-19,4,0,7);ctx.fill();ctx.fillStyle='#503019';ctx.fillRect(-11,4,22,19);ctx.fillStyle='#e8a36c';ctx.fillRect(-15,6,5,12);ctx.fillRect(10,6,5,12);ctx.fillStyle='#332014';ctx.fillRect(-9,21,7,7);ctx.fillRect(3,21,7,7);ctx.fillStyle='#fff';ctx.fillRect(-5,-11,4,5);ctx.fillRect(3,-11,4,5);ctx.restore()}
-function draw(){resizeGame();const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);let g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#1b2832');g.addColorStop(1,'#100b08');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);for(let i=0;i<60;i++){ctx.fillStyle='#d6a13b55';ctx.fillRect((i*83)%w,((i*127-camera*.3)%(h+30)+h+30)%(h+30),2,2)}
-platforms.forEach(p=>{let y=p.y-camera;if(p.broken||y<-25||y>h+20)return;ctx.fillStyle=p.type==='bad'?'#a52d25':p.type==='gold'?'#dba52c':'#477b39';ctx.beginPath();ctx.roundRect(p.x,y,p.w,p.h,6);ctx.fill();ctx.fillStyle=p.type==='bad'?'#f17c55':p.type==='gold'?'#ffe17b':'#a4dc63';ctx.fillRect(p.x+5,y+2,p.w-10,4);ctx.fillStyle='#30251a';ctx.fillRect(p.x+5,y+15,p.w-10,8)});
-coins.forEach(c=>{if(c.got)return;let y=c.y-camera;if(y<-20||y>h+20)return;ctx.shadowColor='#ffce39';ctx.shadowBlur=12;ctx.fillStyle='#ffc83d';ctx.beginPath();ctx.arc(c.x,y,c.r,0,7);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#8a4d05';ctx.font='bold 13px Georgia';ctx.textAlign='center';ctx.fillText('G',c.x,y+4)});
-miner(player.x,player.y-camera);ctx.fillStyle='#f6d47e';ctx.font='bold 13px system-ui';ctx.textAlign='left';ctx.fillText('DIEPTE '+Math.floor(depth/10)+' m',12,21);
-if(!active){ctx.fillStyle='#0009';ctx.fillRect(0,0,w,h);ctx.textAlign='center';ctx.fillStyle='#ffd052';ctx.font='bold 27px Georgia';ctx.fillText('GOLD RUSH',w/2,h/2-12);ctx.fillStyle='#fff';ctx.font='14px system-ui';ctx.fillText('Druk op Start afdaling',w/2,h/2+16)}}
-function endGame(){if(!active)return;active=false;cancelAnimationFrame(raf);canSubmit=true;$('start').disabled=false;$('again').disabled=false;$('submitBox').classList.remove('hidden');$('gameStatus').textContent='Game over op '+Math.floor(depth/10)+' meter. Je verzamelde '+score+' goudstukken. Dien je score in!';draw()}
-function step(ts){if(!active)return;timeLeft=Math.max(0,30-(ts-gameStart)/1000);if(timeLeft<=0){updateStats();endGame();return}const dt=Math.min(Math.max((ts-last)/16.667,.5),1.8);last=ts;const w=canvas.clientWidth,h=canvas.clientHeight;player.x+=(keys.right?4.4:0)-(keys.left?4.4:0);player.x=Math.max(0,Math.min(w-player.w,player.x));let oldBottom=player.y+player.h;player.vy+=.22*dt;if(standUntil>ts)player.vy=0;else player.y+=player.vy*dt;let newBottom=player.y+player.h;
-if(player.vy>0&&standUntil<=ts){for(const p of platforms){if(p.broken)continue;if(oldBottom<=p.y&&newBottom>=p.y&&player.x+player.w>p.x+5&&player.x<p.x+p.w-5){if(p.type==='bad'){p.broken=true;endGame();return}else{player.y=p.y-player.h;player.vy=0;standUntil=ts+320;if(p.type==='gold'){score+=5;p.type='safe'}}break}}}
-for(const coin of coins){if(!coin.got&&Math.abs(player.x+15-coin.x)<23&&Math.abs(player.y+21-coin.y)<28){coin.got=true;score+=10}}
-camera=Math.max(camera,player.y-h*.42);depth=Math.max(depth,player.y);if(player.y-camera>h+65){endGame();return}
-let bottom=platforms.reduce((m,p)=>Math.max(m,p.y),0),maxY=camera+h+650;while(bottom<maxY){bottom+=110+Math.random()*35;platforms.push(makePlatform(bottom));if(Math.random()<.8)coins.push({x:20+Math.random()*(w-40),y:bottom-45,r:11,got:false})}
-platforms=platforms.filter(p=>p.y>camera-100);coins=coins.filter(c=>c.y>camera-50&&!c.got);updateStats();draw();raf=requestAnimationFrame(step)}
-function startGame(){cancelAnimationFrame(raf);keys={left:false,right:false};initWorld();gameStart=performance.now();timeLeft=30;active=true;canSubmit=false;$('submitBox').classList.add('hidden');$('start').disabled=true;$('again').disabled=true;$('gameStatus').textContent='Je hebt 30 seconden! Raak geen rode tegels, verzamel zoveel mogelijk goud.';last=performance.now();draw();raf=requestAnimationFrame(step)}
-$('start').onclick=startGame;$('again').onclick=startGame;
-function bindMove(id,key){const b=$(id);b.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true;b.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,()=>keys[key]=false))}
-bindMove('left','left');bindMove('right','right');window.addEventListener('keydown',e=>{if(['ArrowLeft','a','A'].includes(e.key)){keys.left=true;e.preventDefault()}if(['ArrowRight','d','D'].includes(e.key)){keys.right=true;e.preventDefault()}});window.addEventListener('keyup',e=>{if(['ArrowLeft','a','A'].includes(e.key))keys.left=false;if(['ArrowRight','d','D'].includes(e.key))keys.right=false});window.addEventListener('blur',()=>keys={left:false,right:false});resizeGame();draw();
-async function getLeaders(){try{const r=await fetch(SUPABASE_URL+'/rest/v1/goldrush_scores?select=username,score,created_at&order=score.desc,created_at.asc&limit=10',{headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY}});if(!r.ok)throw Error();const rows=await r.json();const html=rows.length?rows.map((x,i)=>'<div class="leader-row"><span class="rank">'+(i<3?['🥇','🥈','🥉'][i]:'#'+(i+1))+'</span><strong>'+escapeHtml(x.username)+'</strong><span class="score">'+Number(x.score).toLocaleString('nl-BE')+'</span></div>').join(''):'<div class="empty">Nog geen scores. Word de eerste in de Top 10!</div>';$('leaders').innerHTML=html;const home=$('homeLeaders');if(home)home.innerHTML=html;const other=$('game-leaderboard');if(other){other.querySelector('.leader-list').innerHTML=html;}$('boardStatus').textContent='Live scorebord'}catch(e){$('boardStatus').textContent='Niet bereikbaar';$('leaders').innerHTML='<div class="empty">Scorebord tijdelijk niet bereikbaar.</div>'}}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('submit').onclick=async()=>{const name=$('username').value.trim();if(!canSubmit)return;if(!/^[\p{L}\p{N} _.-]{2,18}$/u.test(name)){$('gameStatus').textContent='Kies een gebruikersnaam van 2 tot 18 tekens.';return}const b=$('submit');b.disabled=true;try{const r=await fetch(SUPABASE_URL+'/rest/v1/goldrush_scores',{method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({username:name,score:score+Math.floor(depth/100)})});if(!r.ok)throw Error();$('gameStatus').textContent='Score succesvol ingediend. Veel succes op de Top 10!';$('submitBox').classList.add('hidden');canSubmit=false;getLeaders()}catch(e){$('gameStatus').textContent='Indienen lukte niet. Probeer opnieuw.'}finally{b.disabled=false}};
-getLeaders();setInterval(getLeaders,30000);
-</script></body></html>
+
+function escapeHtml(value){
+ return String(value).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function scoreMonth(dateString){
+ const d=new Date(dateString);const now=new Date();
+ return d.getFullYear()===now.getFullYear()&&d.getMonth()===now.getMonth();
+}
+function scoreMarkup(rows,limit){
+ if(!rows.length)return '<div class="empty-board">Er staan nog geen scores op het scorebord.<br>Wees de eerste mijnwerker in de Top 10!</div>';
+ return rows.slice(0,limit).map((row,i)=>{
+  const medal=i===0?"♛":i===1?"♛":i===2?"♛":String(i+1);
+  return '<div class="leader-row rank-'+(i+1)+'"><span class="rank-number">'+medal+'</span><span class="leader-name">'+escapeHtml(row.username)+'</span><span class="leader-score">'+Number(row.score).toLocaleString("nl-BE")+'</span></div>';
+ }).join("");
+}
+function renderScores(){
+ const monthRows=scoreFilter==="month"?allScores.filter(r=>scoreMonth(r.created_at)):allScores;
+ const sorted=monthRows.slice().sort((a,b)=>Number(b.score)-Number(a.score));
+ $("homeLeaders").innerHTML=scoreMarkup(allScores.filter(r=>scoreMonth(r.created_at)),5);
+ $("scoreLeaders").innerHTML=scoreMarkup(sorted,10);
+ $("scoreSummary").textContent=sorted.length+" score"+(sorted.length===1?"":"s")+" in "+(scoreFilter==="month"?"deze maand":"het volledige scorebord")+".";
+}
+async function loadScores(){
+ $("boardStatus")&&($("boardStatus").textContent="Scorebord laden…");
+ try{
+  const url=SUPABASE_URL+"/rest/v1/goldrush_scores?select=username,score,created_at&order=score.desc,created_at.asc&limit=200";
+  const response=await fetch(url,{headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY},cache:"no-store"});
+  if(!response.ok)throw new Error("Scorebord niet bereikbaar");
+  const rows=await response.json();
+  allScores=Array.isArray(rows)?rows:[];
+  renderScores();
+  if($("boardStatus"))$("boardStatus").textContent="Live scorebord";
+ }catch(error){
+  if($("boardStatus"))$("boardStatus").textContent="Tijdelijk niet bereikbaar";
+  $("homeLeaders").innerHTML='<div class="empty-board">Het scorebord kan momenteel niet worden geladen.</div>';
+  $("scoreLeaders").innerHTML='<div class="empty-board">Het scorebord kan momenteel niet worden geladen.</div>';
+  $("scoreSummary").textContent="Probeer later opnieuw.";
+ }
+}
+loadScores();setInterval(loadScores,30000);
+document.querySelectorAll("[data-filter]").forEach(button=>button.addEventListener("click",()=>{
+ scoreFilter=button.dataset.filter;
+ document.querySelectorAll("[data-filter]").forEach(b=>b.classList.toggle("active",b===button));
+ renderScores();
+}));
+
+function openSettings(){
+ $("profileName").value=localStorage.getItem("gm_player_name")||"";
+ $("soundToggle").checked=localStorage.getItem("gm_sound")!=="false";
+ $("settingsStatus").textContent="";
+ $("settingsBackdrop").classList.add("open");
+}
+function closeSettings(){$("settingsBackdrop").classList.remove("open")}
+$("openSettings").addEventListener("click",openSettings);
+$("closeSettings").addEventListener("click",closeSettings);
+$("cancelSettings").addEventListener("click",closeSettings);
+$("settingsBackdrop").addEventListener("click",e=>{if(e.target===$("settingsBackdrop"))closeSettings()});
+$("saveSettings").addEventListener("click",()=>{
+ const name=$("profileName").value.trim();
+ if(name&&(!/^[\p{L}\p{N} _.-]{2,18}$/u.test(name))){$("settingsStatus").textContent="Gebruik 2 tot 18 letters, cijfers, spaties, punten of streepjes.";return}
+ localStorage.setItem("gm_player_name",name);
+ localStorage.setItem("gm_sound",String($("soundToggle").checked));
+ $("settingsStatus").textContent="Instellingen opgeslagen.";
+ setTimeout(closeSettings,650);
+});
+$("profileName").addEventListener("keydown",e=>{if(e.key==="Enter")$("saveSettings").click()});
+
+canvas=$("gameCanvas");ctx=canvas.getContext("2d");
+const rand=(a,b)=>a+Math.random()*(b-a);
+function resizeCanvas(){
+ const w=canvas.clientWidth||900,h=canvas.clientHeight||520,dpr=Math.min(window.devicePixelRatio||1,2);
+ const width=Math.round(w*dpr),height=Math.round(h*dpr);
+ if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height}
+ canvasScale=dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function buildWorld(){
+ const width=canvas.clientWidth||900;
+ game.score=0;game.depth=0;game.lives=3;game.camera=0;game.invulnerableUntil=0;game.damageFlash=0;
+ game.player={x:width/2-17,y:95,w:34,h:46,vy:2.2};
+ game.platforms=[];game.coins=[];
+ game.platforms.push({x:width/2-83,y:164,w:166,h:20,type:"safe",hit:false});
+ let y=265;
+ while(y<3700){
+  const w=rand(95,165),x=rand(20,Math.max(21,width-w-20));
+  const roll=Math.random(),type=roll<.19?"danger":roll<.42?"gold":"safe";
+  game.platforms.push({x,y,w,h:18,type,hit:false});
+  if(Math.random()<.9)game.coins.push({x:x+w*rand(.25,.75),y:y-45,r:12,got:false});
+  y+=rand(100,145);
+ }
+}
+function drawBackground(w,h,camera){
+ const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,"#1a2630");g.addColorStop(.55,"#101923");g.addColorStop(1,"#09090c");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+ ctx.fillStyle="#18212a";ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(w*.11,0);ctx.lineTo(w*.08,h*.22);ctx.lineTo(w*.16,h*.39);ctx.lineTo(w*.08,h*.56);ctx.lineTo(w*.15,h*.77);ctx.lineTo(w*.08,h);ctx.lineTo(0,h);ctx.fill();
+ ctx.beginPath();ctx.moveTo(w,0);ctx.lineTo(w*.89,0);ctx.lineTo(w*.92,h*.18);ctx.lineTo(w*.84,h*.36);ctx.lineTo(w*.93,h*.57);ctx.lineTo(w*.85,h*.8);ctx.lineTo(w*.91,h);ctx.lineTo(w,h);ctx.fill();
+ for(let i=0;i<40;i++){const x=(i*137)%w,y=((i*91-camera*.23)%(h+20)+h+20)%(h+20);ctx.fillStyle=i%3===0?"#efaa34":"#a8b8c8";ctx.globalAlpha=.18+(i%4)*.06;ctx.beginPath();ctx.arc(x,y,(i%3)+1,0,Math.PI*2);ctx.fill()}
+ ctx.globalAlpha=1;
+ for(let side=0;side<2;side++){
+  const x=side?w-48:48,y=75+((camera*.15)%180);
+  ctx.strokeStyle="#75502b";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(x,y-42);ctx.lineTo(x,y+5);ctx.stroke();
+  ctx.fillStyle="#ffb52f";ctx.shadowColor="#ff9b16";ctx.shadowBlur=18;ctx.beginPath();ctx.arc(x,y+8,9,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+ }
+}
+function drawPlatform(p,camera){
+ const y=p.y-camera;if(y<-35||y>canvas.clientHeight+30)return;
+ const color=p.type==="danger"?"#9b2b27":p.type==="gold"?"#d79916":"#3f7838";
+ const top=p.type==="danger"?"#f26a50":p.type==="gold"?"#ffe17a":"#a8dc63";
+ ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(p.x,y,p.w,p.h,5);ctx.fill();
+ ctx.fillStyle=top;ctx.fillRect(p.x+4,y+2,p.w-8,4);
+ ctx.fillStyle="#332a24";for(let i=0;i<Math.max(2,Math.floor(p.w/24));i++){ctx.fillRect(p.x+7+i*22,y+8+(i%2)*2,16,8)}
+ if(p.type==="danger"){ctx.strokeStyle="#f7b0a0";ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(p.x+p.w*.35,y+4);ctx.lineTo(p.x+p.w*.46,y+13);ctx.lineTo(p.x+p.w*.53,y+7);ctx.stroke()}
+}
+function drawCoin(c,camera){
+ if(c.got)return;const y=c.y-camera;if(y<-20||y>canvas.clientHeight+20)return;
+ ctx.save();ctx.shadowColor="#ffcb3e";ctx.shadowBlur=15;ctx.fillStyle="#ffc52f";ctx.beginPath();ctx.arc(c.x,y,c.r,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle="#fff09a";ctx.lineWidth=2;ctx.stroke();ctx.fillStyle="#895009";ctx.font="bold 13px Georgia";ctx.textAlign="center";ctx.fillText("G",c.x,y+4);ctx.restore();
+}
+function drawMiner(p){
+ const x=p.x,y=p.y;
+ ctx.save();
+ ctx.fillStyle="#39200f";ctx.beginPath();ctx.ellipse(x+p.w/2,y+p.h-3,13,5,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#7b421c";ctx.fillRect(x+7,y+21,21,20);
+ ctx.fillStyle="#b66b30";ctx.fillRect(x+4,y+24,6,16);ctx.fillRect(x+26,y+24,6,16);
+ ctx.fillStyle="#f0b27b";ctx.beginPath();ctx.arc(x+17,y+17,13,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#593018";ctx.beginPath();ctx.arc(x+17,y+12,13,Math.PI,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#f1bd30";ctx.fillRect(x+4,y+5,26,6);ctx.fillRect(x+9,y+1,17,5);
+ ctx.fillStyle="#fff1a2";ctx.shadowColor="#ffe16a";ctx.shadowBlur=15;ctx.beginPath();ctx.arc(x+27,y+5,5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+ ctx.fillStyle="#20130d";ctx.fillRect(x+11,y+16,3,5);ctx.fillRect(x+21,y+16,3,5);
+ ctx.fillStyle="#fff";ctx.fillRect(x+12,y+16,2,2);ctx.fillRect(x+22,y+16,2,2);
+ ctx.fillStyle="#fff0d0";ctx.beginPath();ctx.arc(x+18,y+23,5,0,Math.PI);ctx.fill();
+ ctx.fillStyle="#39200f";ctx.fillRect(x+9,y+40,7,7);ctx.fillRect(x+20,y+40,7,7);
+ ctx.restore();
+}
+function updateHud(){
+ $("hudScore").textContent=game.score.toLocaleString("nl-BE");
+ $("hudDepth").textContent=Math.max(0,Math.floor(game.depth));
+ $("lifeCount").textContent="❤️".repeat(Math.max(0,game.lives))+"🖤".repeat(Math.max(0,3-game.lives));
+}
+function drawGame(){
+ resizeCanvas();const w=canvas.clientWidth||900,h=canvas.clientHeight||520;
+ ctx.clearRect(0,0,w,h);drawBackground(w,h,game.camera);
+ game.platforms.forEach(p=>drawPlatform(p,game.camera));
+ game.coins.forEach(c=>drawCoin(c,game.camera));
+ if(game.player)drawMiner(game.player);
+ if(game.damageFlash>Date.now()){ctx.fillStyle="#e2272760";ctx.fillRect(0,0,w,h)}
+ if(game.paused||game.ended){
+  ctx.fillStyle="#000a";ctx.fillRect(0,0,w,h);ctx.textAlign="center";
+  ctx.fillStyle="#ffd34f";ctx.font="900 36px Georgia";ctx.fillText(game.ended?"AFDALING VOLTOOID":"GEPAUZEERD",w/2,h/2-8);
+  ctx.fillStyle="#fff";ctx.font="bold 16px Arial";ctx.fillText(game.ended?"Je score: "+game.score.toLocaleString("nl-BE"):"Druk op hervatten om verder te gaan",w/2,h/2+25);
+ }
+ updateHud();
+}
+function gameStep(timestamp){
+ if(!game.active||game.paused)return;
+ const dt=Math.min((timestamp-game.lastTime)/16.67,2.2);game.lastTime=timestamp;
+ const w=canvas.clientWidth||900,h=canvas.clientHeight||520,p=game.player;
+ const moveSpeed=Math.max(3.7,w*.006);
+ if(game.keys.left)p.x-=moveSpeed*dt;if(game.keys.right)p.x+=moveSpeed*dt;
+ p.x=Math.max(2,Math.min(w-p.w-2,p.x));
+ const previousBottom=p.y+p.h;
+ p.vy=Math.min(p.vy+.13*dt,4.8);
+ p.y+=p.vy*dt;
+ const newBottom=p.y+p.h;
+ if(p.vy>0){
+  for(const platform of game.platforms){
+   if(platform.hit)continue;
+   if(previousBottom<=platform.y+4&&newBottom>=platform.y&&p.x+p.w>platform.x+4&&p.x<platform.x+platform.w-4){
+    platform.hit=true;
+    if(platform.type==="danger"){
+     if(timestamp>game.invulnerableUntil){game.lives--;game.invulnerableUntil=timestamp+1000;game.damageFlash=Date.now()+180}
+     p.vy=-3.2;
+     if(game.lives<=0){finishGame();return}
+    }else{
+     if(platform.type==="gold")game.score+=250;
+     p.vy=-1.2;
+    }
+    break;
+   }
+  }
+ }
+ for(const coin of game.coins){
+  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coin.y)<25){coin.got=true;game.score+=100}
+ }
+ const worldDepth=p.y+game.camera;
+ game.depth=Math.max(game.depth,worldDepth/4);
+ if(p.y>h-90){game.camera+=p.y-(h-90);p.y=h-90}
+ if(p.y<20&&game.camera>0){p.y=20}
+ if(game.depth>0)game.score=Math.max(game.score,Math.floor(game.depth*12));
+ const bottom=Math.max(...game.platforms.map(x=>x.y));
+ while(bottom<game.camera+h+1000){
+  const y=bottom+rand(100,145),w2=rand(95,165),x=rand(15,Math.max(16,w-w2-15));
+  const t=Math.random()<.18?"danger":Math.random()<.26?"gold":"safe";
+  game.platforms.push({x,y,w:w2,h:18,type:t,hit:false});
+  if(Math.random()<.92)game.coins.push({x:x+w2*rand(.25,.75),y:y-45,r:12,got:false});
+  if(y>game.camera+h+1600)break;
+ }
+ game.platforms=game.platforms.filter(x=>x.y>game.camera-130);
+ game.coins=game.coins.filter(x=>x.y>game.camera-80&&!x.got);
+ if(p.y>h+50){game.lives--;p.y=70;p.vy=0;if(game.lives<=0){finishGame();return}}
+ drawGame();game.raf=requestAnimationFrame(gameStep);
+}
+function startGame(){
+ cancelAnimationFrame(game.raf);
+ buildWorld();game.active=true;game.paused=false;game.ended=false;game.lastTime=performance.now();
+ $("gameFrame").classList.add("running");$("submitBox").classList.add("hidden");
+ $("startGame").textContent="⛏ AFDALING BEZIG";$("startGame").disabled=true;$("restartGame").disabled=true;
+ $("gameStatus").textContent="Je bent vertrokken! Verzamel goud en ontwijk de rode rotsen.";
+ drawGame();game.raf=requestAnimationFrame(gameStep);
+}
+function finishGame(){
+ game.active=false;game.ended=true;cancelAnimationFrame(game.raf);
+ $("startGame").disabled=false;$("startGame").textContent="▶ OPNIEUW STARTEN";$("restartGame").disabled=false;
+ $("submitBox").classList.remove("hidden");$("gameStatus").textContent="Je bereikte "+Math.floor(game.depth)+" meter en verzamelde een score van "+game.score.toLocaleString("nl-BE")+".";
+ const nickname=localStorage.getItem("gm_player_name")||"";
+ $("playerName").value=nickname;drawGame();
+}
+function pauseGame(){
+ if(!game.active)return;
+ game.paused=!game.paused;
+ $("pauseGame").textContent=game.paused?"▶":"Ⅱ";
+ if(game.paused){cancelAnimationFrame(game.raf);drawGame()}
+ else{game.lastTime=performance.now();game.raf=requestAnimationFrame(gameStep)}
+}
+$("startGame").addEventListener("click",startGame);
+$("restartGame").addEventListener("click",startGame);
+$("pauseGame").addEventListener("click",pauseGame);
+$("gameFrame").classList.remove("running");
+function bindMove(buttonId,key){
+ const button=$(buttonId);
+ button.addEventListener("pointerdown",event=>{event.preventDefault();game.keys[key]=true;button.setPointerCapture(event.pointerId)});
+ ["pointerup","pointercancel","lostpointercapture"].forEach(type=>button.addEventListener(type,()=>game.keys[key]=false));
+}
+bindMove("moveLeft","left");bindMove("moveRight","right");
+window.addEventListener("keydown",event=>{
+ if(["ArrowLeft","a","A"].includes(event.key)){game.keys.left=true;event.preventDefault()}
+ if(["ArrowRight","d","D"].includes(event.key)){game.keys.right=true;event.preventDefault()}
+ if(event.key==="Escape"&&game.active)pauseGame();
+});
+window.addEventListener("keyup",event=>{
+ if(["ArrowLeft","a","A"].includes(event.key))game.keys.left=false;
+ if(["ArrowRight","d","D"].includes(event.key))game.keys.right=false;
+});
+window.addEventListener("blur",()=>{game.keys.left=false;game.keys.right=false});
+window.addEventListener("resize",()=>{if(game.active||game.ended)drawGame()});
+canvas.addEventListener("pointerdown",event=>{if(!game.active)return;const rect=canvas.getBoundingClientRect();const x=event.clientX-rect.left;game.keys.left=x<rect.width/2;game.keys.right=x>=rect.width/2});
+["pointerup","pointercancel","pointerleave"].forEach(type=>canvas.addEventListener(type,()=>{game.keys.left=false;game.keys.right=false}));
+resizeCanvas();drawGame();
+
+$("submitScore").addEventListener("click",async()=>{
+ const name=$("playerName").value.trim();
+ if(!game.ended){$("submitStatus").textContent="Rond eerst je afdaling af.";return}
+ if(!/^[\p{L}\p{N} _.-]{2,18}$/u.test(name)){$("submitStatus").textContent="Kies een naam van 2 tot 18 tekens.";return}
+ const button=$("submitScore");button.disabled=true;$("submitStatus").textContent="Score wordt opgeslagen…";
+ try{
+  const response=await fetch(SUPABASE_URL+"/rest/v1/goldrush_scores",{
+   method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json",Prefer:"return=minimal"},
+   body:JSON.stringify({username:name,score:Math.min(1000000,Math.max(0,Math.floor(game.score)))})
+  });
+  if(!response.ok){const detail=await response.text();throw new Error(detail||"Opslaan is mislukt")}
+  localStorage.setItem("gm_player_name",name);
+  $("submitStatus").textContent="Score opgeslagen! Je staat nu op het Gold Rush-scorebord.";
+  button.textContent="OPGESLAGEN";$("submitBox").classList.add("hidden");
+  loadScores();
+ }catch(error){$("submitStatus").textContent="Opslaan lukte niet. Controleer je verbinding en probeer opnieuw."}
+ finally{button.disabled=false;button.textContent="SCORE OPSLAAN"}
+});
+if(savedName)$("playerName").value=savedName;
+
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
+ window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+}
+</script>
+</body>
+</html>
