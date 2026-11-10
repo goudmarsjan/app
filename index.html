@@ -23,9 +23,9 @@ button,input{font:inherit}
 button{cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px}
 .app{width:min(100%,980px);margin:0 auto;padding:0 14px 30px}
-.hero-header{height:clamp(155px,37vw,350px);position:relative;margin:0 -14px 12px;overflow:hidden;background:#100b06;border-bottom:2px solid #a56e20;box-shadow:0 9px 22px #0009}
-.hero-header>img{position:absolute;inset:0;width:100%;height:132%;object-fit:cover;object-position:center top}
-.gear-button{position:absolute;right:3%;top:7%;z-index:4;width:46px;height:46px;border:0;border-radius:50%;background:#100b08b8;color:#ffd34f;font-size:31px;line-height:1;box-shadow:0 2px 10px #0008}
+.hero-header{height:clamp(125px,34.1vw,334px);position:relative;margin:0 -14px 12px;overflow:hidden;background:#100b06;border-bottom:2px solid #a56e20;box-shadow:0 9px 22px #0009}
+.hero-header>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
+.gear-button{position:absolute;right:3%;top:7%;z-index:4;width:46px;height:46px;border:0;border-radius:50%;background:transparent;color:transparent;font-size:0;line-height:1;box-shadow:none}
 .gear-button:hover{background:#3a260e}
 .nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 17px}
 .nav-button{min-height:82px;border:2px solid #62482d;border-radius:18px;background:linear-gradient(145deg,#29221d,#0d0b09);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;font-weight:800;font-size:14px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s,filter .15s}
@@ -69,7 +69,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .game-home-button{display:flex;justify-content:center;position:relative;z-index:2;margin-top:-21px}
 .game-home-button .gold-button{min-width:min(52%,460px)}
 .board-panel{position:relative;overflow:hidden}
-.board-panel:after{content:"";position:absolute;right:-2%;bottom:-5%;width:43%;height:95%;background:url("treasure-cart.png") center bottom/contain no-repeat;opacity:.95;pointer-events:none;z-index:0}
+.board-panel:after{content:"";position:absolute;right:-2%;bottom:-5%;width:43%;height:95%;background:url("treasure-cart.png") center bottom/100% 125% no-repeat;clip-path:inset(15% 0 0 0);opacity:.95;pointer-events:none;z-index:0}
 .board-inner{position:relative;z-index:1}
 .board-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
 .board-heading h2{margin:0;font-size:clamp(19px,3vw,27px);font-weight:950}
@@ -150,7 +150,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .hidden{display:none!important}
 @media(max-width:720px){
  .app{padding-inline:11px}
- .hero-header{margin-inline:-11px;height:clamp(142px,38vw,235px)}
+ .hero-header{margin-inline:-11px;height:clamp(125px,34.1vw,235px)}
  .nav{gap:6px;margin:10px 0 13px}
  .nav-button{min-height:67px;border-radius:14px;font-size:12px}
  .nav-button svg{width:25px;height:25px}
