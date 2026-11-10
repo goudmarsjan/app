@@ -594,7 +594,8 @@ function gameStep(timestamp){
  if(p.vy>0){
   for(const platform of game.platforms){
    if(platform.hit)continue;
-   if(previousBottom<=platform.y+4&&newBottom>=platform.y&&p.x+p.w>platform.x+4&&p.x<platform.x+platform.w-4){
+   const platformScreenY=platform.y-game.camera;
+   if(previousBottom<=platformScreenY+4&&newBottom>=platformScreenY&&p.x+p.w>platform.x+4&&p.x<platform.x+platform.w-4){
     platform.hit=true;
     if(platform.type==="danger"){
      if(timestamp>game.invulnerableUntil){game.lives--;game.invulnerableUntil=timestamp+1000;game.damageFlash=Date.now()+180}
@@ -609,7 +610,8 @@ function gameStep(timestamp){
   }
  }
  for(const coin of game.coins){
-  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coin.y)<25){coin.got=true;game.score+=100}
+  const coinScreenY=coin.y-game.camera;
+  if(!coin.got&&Math.abs((p.x+p.w/2)-coin.x)<22&&Math.abs((p.y+p.h/2)-coinScreenY)<25){coin.got=true;game.score+=100}
  }
  const worldDepth=p.y+game.camera;
  game.depth=Math.max(game.depth,worldDepth/4);
