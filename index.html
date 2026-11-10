@@ -616,13 +616,13 @@ function gameStep(timestamp){
  if(p.y>h-90){game.camera+=p.y-(h-90);p.y=h-90}
  if(p.y<20&&game.camera>0){p.y=20}
  if(game.depth>0)game.score=Math.max(game.score,Math.floor(game.depth*12));
- const bottom=Math.max(...game.platforms.map(x=>x.y));
+ let bottom=Math.max(...game.platforms.map(x=>x.y));
  while(bottom<game.camera+h+1000){
-  const y=bottom+rand(100,145),w2=rand(95,165),x=rand(15,Math.max(16,w-w2-15));
+  bottom+=rand(100,145);
+  const y=bottom,w2=rand(95,165),x=rand(15,Math.max(16,w-w2-15));
   const t=Math.random()<.18?"danger":Math.random()<.26?"gold":"safe";
   game.platforms.push({x,y,w:w2,h:18,type:t,hit:false});
   if(Math.random()<.92)game.coins.push({x:x+w2*rand(.25,.75),y:y-45,r:12,got:false});
-  if(y>game.camera+h+1600)break;
  }
  game.platforms=game.platforms.filter(x=>x.y>game.camera-130);
  game.coins=game.coins.filter(x=>x.y>game.camera-80&&!x.got);
