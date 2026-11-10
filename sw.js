@@ -1,9 +1,10 @@
-const CACHE_NAME = "goudmarsjan-shell-v7";
+const CACHE_NAME = "goudmarsjan-shell-v8";
 const APP_FILES = [
   "/",
   "/index.html",
   "/manifest.json",
   "/icon.svg",
+  "/icon-192.png",
   "/goldrushheader.png",
   "/game-scene.png",
   "/goldrush-promo.png",
