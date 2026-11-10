@@ -37,6 +37,8 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  // API responses must never be cached: metal prices need a fresh server response.
+  if (url.pathname.startsWith("/api/")) return;
   event.respondWith(
     caches.match(request).then(cached => {
       if (cached) return cached;
