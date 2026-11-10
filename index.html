@@ -18,7 +18,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,Arial,system-ui,sans-serif;background:#080706 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cpath d='M0 0L28 15 17 45 0 55M180 0L150 20 162 51 180 60M0 180L35 155 24 126 0 115M180 180L146 155 158 126 180 115' fill='none' stroke='%233c2815' stroke-width='12'/%3E%3C/svg%3E") repeat;background-size:180px}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,Arial,system-ui,sans-serif;background:radial-gradient(ellipse at 50% -12%,#2d1d0f 0%,#1a130c 38%,#0b0907 76%,#060504 100%) fixed}
 button,input{font:inherit}
 button{cursor:pointer}
 button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);outline-offset:3px}
@@ -48,7 +48,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .price-card{min-width:0;min-height:146px;position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(84px,31%) 1fr;align-items:center;gap:8px;padding:14px;border-radius:19px;border:2px solid #f0b52b;background:radial-gradient(ellipse at 22% 50%,#8a590c 0,#382406 48%,#140d05 100%);box-shadow:inset 0 0 25px #ffbf3026,0 5px 12px #0009}
 .price-card.silver{border-color:#c7cbd0;background:radial-gradient(ellipse at 22% 50%,#777e84 0,#34383d 48%,#111214 100%);box-shadow:inset 0 0 25px #fff2,0 5px 12px #0009}
 .metal-art{width:100%;max-width:130px;filter:drop-shadow(0 7px 5px #0009)}
-.metal-art svg{width:100%;height:auto;display:block}
+.metal-art img{width:100%;height:auto;max-height:122px;display:block;object-fit:contain;filter:drop-shadow(0 7px 7px #0009)}
+.price-card.silver .metal-art img{filter:drop-shadow(0 7px 7px #0008)}
 .metal-info{min-width:0}
 .metal-name{display:block;color:#ffd34f;font-size:clamp(17px,3vw,26px);font-weight:1000;letter-spacing:.3px}
 .silver .metal-name{color:#fff}
@@ -254,11 +255,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       </div>
       <div class="prices">
         <article class="price-card gold">
-          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><defs><linearGradient id="goldA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff6a4"/><stop offset=".38" stop-color="#ffca31"/><stop offset=".72" stop-color="#d88705"/><stop offset="1" stop-color="#8d4a00"/></linearGradient></defs><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="url(#goldA)" stroke="#ffdf61" stroke-width="2"/><path d="M37 30 59 45 103 91 30 91 5 67Z" fill="#e89c09"/><path d="M37 30 99 30 133 67 59 67Z" fill="#ffdc4d"/><path d="M32 44 62 7 121 7 92 44Z" fill="url(#goldA)" stroke="#ffeb81" stroke-width="2"/><path d="M62 7 92 44 32 44Z" fill="#c57a08"/><path d="M62 7 121 7 92 44Z" fill="#ffe36b"/><path d="M53 17h54" stroke="#fff9c8" stroke-width="2" opacity=".8"/></svg></div>
+          <div class="metal-art"><img src="gold-bars.webp" alt="Drie gouden baren" loading="eager" decoding="async"></div>
           <div class="metal-info"><span class="metal-name">GOUD</span><strong class="price-kg" id="goldKgHome">Laden…</strong><div class="price-subline"><span id="goldGramHome">— / g</span><span class="change neutral" id="goldChangeHome">—</span></div></div>
         </article>
         <article class="price-card silver">
-          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><defs><linearGradient id="silverA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".42" stop-color="#c5cbd2"/><stop offset=".75" stop-color="#7b828a"/><stop offset="1" stop-color="#454a50"/></linearGradient></defs><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="url(#silverA)" stroke="#eff2f5" stroke-width="2"/><path d="M37 30 59 45 103 91 30 91 5 67Z" fill="#858d96"/><path d="M37 30 99 30 133 67 59 67Z" fill="#e4e8ec"/><path d="M32 44 62 7 121 7 92 44Z" fill="url(#silverA)" stroke="#fff" stroke-width="2"/><path d="M62 7 92 44 32 44Z" fill="#9da5ae"/><path d="M62 7 121 7 92 44Z" fill="#f4f6f8"/><path d="M53 17h54" stroke="#fff" stroke-width="2" opacity=".8"/></svg></div>
+          <div class="metal-art"><img src="silver-bars.webp" alt="Twee zilveren baren" loading="eager" decoding="async"></div>
           <div class="metal-info"><span class="metal-name">ZILVER</span><strong class="price-kg" id="silverKgHome">Laden…</strong><div class="price-subline"><span id="silverGramHome">— / g</span><span class="change neutral" id="silverChangeHome">—</span></div></div>
         </article>
       </div>
@@ -286,11 +287,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       <div class="section-head"><h2>📊 Goud & zilver</h2><span class="live">LIVE</span></div>
       <div class="prices">
         <article class="price-card gold">
-          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="#d8950a" stroke="#ffdf61" stroke-width="2"/><path d="M37 30 99 30 133 67 59 67Z" fill="#ffdc4d"/><path d="M32 44 62 7 121 7 92 44Z" fill="#f9ba22" stroke="#ffeb81" stroke-width="2"/><path d="M62 7 121 7 92 44Z" fill="#ffe36b"/></svg></div>
+          <div class="metal-art"><img src="gold-bars.webp" alt="Drie gouden baren" loading="eager" decoding="async"></div>
           <div class="metal-info"><span class="metal-name">GOUD · XAU</span><strong class="price-kg" id="goldKgRates">Laden…</strong><div class="price-subline"><span id="goldGramRates">— per gram</span><span class="change neutral" id="goldChangeRates">—</span></div></div>
         </article>
         <article class="price-card silver">
-          <div class="metal-art" aria-hidden="true"><svg viewBox="0 0 140 100"><path d="M5 67 37 30 99 30 133 67 103 91 30 91Z" fill="#828a93" stroke="#eef0f2" stroke-width="2"/><path d="M37 30 99 30 133 67 59 67Z" fill="#e4e8ec"/><path d="M32 44 62 7 121 7 92 44Z" fill="#bdc5ce" stroke="#fff" stroke-width="2"/><path d="M62 7 121 7 92 44Z" fill="#f4f6f8"/></svg></div>
+          <div class="metal-art"><img src="silver-bars.webp" alt="Twee zilveren baren" loading="eager" decoding="async"></div>
           <div class="metal-info"><span class="metal-name">ZILVER · XAG</span><strong class="price-kg" id="silverKgRates">Laden…</strong><div class="price-subline"><span id="silverGramRates">— per gram</span><span class="change neutral" id="silverChangeRates">—</span></div></div>
         </article>
       </div>
