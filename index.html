@@ -7,6 +7,9 @@
 <meta name="description" content="Actuele goud- en zilverkoersen, Gold Rush en het scorebord van De Goudmarsjan.">
 <meta name="application-name" content="De Goudmarsjan">
 <link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Goudmarsjan">
 <title>De Goudmarsjan — Edelmetalen & Gold Rush</title>
 <style>
 :root{
@@ -27,6 +30,16 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .hero-header>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
 .gear-button{position:absolute;right:3%;top:7%;z-index:4;width:46px;height:46px;border:0;border-radius:50%;background:transparent;color:transparent;font-size:0;line-height:1;box-shadow:none}
 .gear-button:hover{background:#3a260e}
+.install-button{position:absolute;right:calc(3% + 54px);top:7%;z-index:5;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:8px 14px;border:1px solid #ffe58b;border-radius:999px;background:linear-gradient(180deg,#ffe66b,#f4b10b 68%,#b96800);color:#1a1001;font-size:12px;font-weight:1000;white-space:nowrap;box-shadow:0 3px 0 #754100,0 0 14px #f6c23d66,inset 0 1px #fff9}
+.install-button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.install-button:disabled{background:linear-gradient(#333,#17130f);border-color:#796b50;color:#b6a98e;box-shadow:none;cursor:default}
+.install-modal{max-height:min(90vh,720px);overflow:auto}
+.install-instructions{color:#e9dcc7;font-size:14px;line-height:1.6}
+.install-instructions p{margin:0 0 12px}
+.install-instructions ol{margin:0;padding-left:23px}
+.install-instructions li{padding:4px 0}
+.install-instructions strong{color:#ffdc64}
+.install-tip{margin-top:14px;padding:11px 13px;border-left:3px solid #d99b26;border-radius:5px;background:#160e07;color:#cbbb9e;font-size:12px;line-height:1.5}
 .nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 17px}
 .nav-button{min-height:82px;border:2px solid #62482d;border-radius:18px;background:linear-gradient(145deg,#29221d,#0d0b09);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;font-weight:800;font-size:14px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s,filter .15s}
 .nav-button svg{width:29px;height:29px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -158,6 +171,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 @media(max-width:720px){
  .app{padding-inline:11px}
  .hero-header{margin-inline:-11px;height:clamp(125px,34.1vw,235px)}
+ .install-button{right:calc(3% + 48px);top:8%;min-height:35px;padding:7px 10px;font-size:10px;gap:5px}
+ .install-button svg{width:15px;height:15px}
  .nav{gap:6px;margin:10px 0 13px}
  .nav-button{min-height:67px;border-radius:14px;font-size:12px}
  .nav-button svg{width:25px;height:25px}
@@ -229,6 +244,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 <main class="app">
   <header class="hero-header" aria-label="De Goudmarsjan">
     <img src="goldrushheader.png" alt="De Goudmarsjan — edelmetalen">
+    <button class="install-button" id="installApp" type="button" aria-label="Download de Goudmarsjan app"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg><span>DOWNLOAD APP</span></button>
     <button class="gear-button" id="openSettings" aria-label="Instellingen">⚙</button>
   </header>
 
@@ -361,6 +377,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
   <footer class="footer">© De Goudmarsjan — Edelmetalen<br><strong>Wete ni wa et is? Goudmarsjan is nooit ni mis!</strong></footer>
 </main>
 
+<div class="modal-backdrop" id="installBackdrop" role="dialog" aria-modal="true" aria-labelledby="installTitle"><div class="settings-modal install-modal"><div class="modal-head"><h2 id="installTitle">Download De Goudmarsjan</h2><button class="close-modal" id="closeInstall" aria-label="Sluiten">×</button></div><div id="installInstructions" class="install-instructions"></div><div class="modal-actions"><button class="gold-button" id="installDone">BEGREPEN</button></div></div></div>
 <div class="modal-backdrop" id="settingsBackdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="settings-modal">
     <div class="modal-head"><h2 id="settingsTitle">⚙ Instellingen</h2><button class="close-modal" id="closeSettings" aria-label="Sluiten">×</button></div>
