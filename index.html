@@ -58,9 +58,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .change.down{background:linear-gradient(#ef6a4e,#b51b1b)}
 .change.neutral{background:#4b443a}
 .price-meta{margin-top:12px;color:#c7b9a7;font-size:12px;line-height:1.45}
-.promo-wrap{position:relative;margin:16px 0 18px;border:2px solid #8c5b1c;border-radius:22px;overflow:hidden;background:#090b0d;box-shadow:inset 0 0 30px #e29a2733,0 10px 26px #000a}
-.promo-wrap picture,.promo-wrap img{display:block;width:100%}
-.promo-wrap img{width:100%;height:auto;max-height:410px;object-fit:cover;object-position:center}
+.promo-wrap{position:relative;aspect-ratio:910/490;margin:16px 0 18px;border:2px solid #8c5b1c;border-radius:22px;overflow:hidden;background:#090b0d;box-shadow:inset 0 0 30px #e29a2733,0 10px 26px #000a;cursor:pointer}
+.promo-wrap picture,.promo-wrap img{position:absolute;inset:0;display:block;width:100%;height:100%}
+.promo-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.promo-wrap:focus-visible{outline:3px solid #ffe77b;outline-offset:3px}
 .promo-overlay{position:absolute;right:4%;bottom:7%;z-index:2}
 .gold-button{border:1px solid #ffe78b;border-radius:999px;padding:14px 28px;background:linear-gradient(180deg,#ffe66a,#f5b20a 65%,#b86600);color:#170f02;font-size:clamp(16px,2.4vw,22px);font-weight:1000;box-shadow:0 4px 0 #854700,0 0 17px #f0ad2b66,inset 0 1px #fff9;min-width:230px}
 .gold-button:hover{filter:brightness(1.08);transform:translateY(-1px)}
@@ -97,7 +98,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .game-panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 4px 10px}
 .game-panel-top h2{margin:0;color:#ffd34f;font-size:22px}
 .game-panel-top p{margin:0;color:#c9bba7;font-size:12px}
-.game-hud{position:absolute;left:39%;right:13%;top:3%;z-index:3;display:flex;justify-content:center;align-items:center;gap:0;border:2px solid #81501b;border-radius:11px;background:#160d07e8;box-shadow:0 3px 8px #0009}
+.game-hud{display:none;position:absolute;left:39%;right:13%;top:3%;z-index:3;justify-content:center;align-items:center;gap:0;border:2px solid #81501b;border-radius:11px;background:#160d07e8;box-shadow:0 3px 8px #0009}
 .hud-cell{flex:1;text-align:center;padding:8px 5px;border-right:1px solid #704a1c}
 .hud-cell:last-child{border:0}
 .hud-cell span{display:block;font-size:12px;color:#eee}
@@ -111,7 +112,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
 .game-frame.running #gamePreview{display:none}
 .game-frame.running #gameCanvas{display:block}
 .game-frame:not(.running) #gameCanvas{display:none}
-.game-frame.running .game-hud{left:4%;right:18%;top:3%}
+.game-frame.running .game-hud{display:flex;left:4%;right:18%;top:3%}
 .controls{display:flex;justify-content:center;align-items:center;gap:14px;margin:12px 0 4px}
 .move-button{width:92px;height:54px;border:2px solid #bf882b;border-radius:14px;background:linear-gradient(#392918,#130d07);color:#ffda60;font-size:28px;font-weight:900;touch-action:none}
 .move-button:active{background:#765018}
@@ -169,7 +170,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
  .refresh-info svg{width:19px}
  .promo-wrap{margin:13px 0 15px;border-radius:17px}
  .promo-wrap img{max-height:none}
- .game-home-button{margin-top:-16px}
+ .promo-wrap{aspect-ratio:910/520}
+ .game-home-button{display:none}
  .game-home-button .gold-button{min-width:64%;font-size:16px;padding:12px 14px}
  .board-panel:after{width:43%;height:72%;right:-8%;opacity:.72}
  .board-heading{align-items:flex-start;flex-wrap:wrap}
@@ -188,7 +190,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
  .hud-cell{padding:5px 3px}
  .hud-cell span{font-size:9px}
  .hud-cell b{font-size:15px}
- .game-frame.running .game-hud{left:3%;right:18%;top:3%}
+ .game-frame.running .game-hud{display:flex;left:3%;right:18%;top:3%}
  .game-pause{width:43px;height:43px;top:9px;right:9px}
  .controls{gap:10px}
  .move-button{width:78px;height:49px}
@@ -253,7 +255,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
       </div>
     </section>
 
-    <section class="promo-wrap" aria-label="Gold Rush">
+    <section class="promo-wrap" id="homePromo" aria-label="Speel Gold Rush" role="button" tabindex="0">
       <picture>
         <source media="(max-width:720px)" srcset="goldrush-promo.png">
         <img src="game-scene.png" alt="Gold Rush — de mijnenafdaling">
@@ -378,6 +380,8 @@ function showPage(name){
 }
 document.querySelectorAll(".nav-button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 $("playFromHome").addEventListener("click",()=>{showPage("game");startGame()});
+$("homePromo").addEventListener("click",()=>showPage("game"));
+$("homePromo").addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();showPage("game")}});
 $("playFromScores").addEventListener("click",()=>{showPage("game");startGame()});
 
 function renderPrice(value,kgId,gramId){
