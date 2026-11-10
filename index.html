@@ -196,8 +196,10 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
  .game-frame.running .game-hud{display:grid;left:13%;right:13%;top:8px}
  .game-frame.running #gameCanvas{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
  .game-pause{width:43px;height:43px;top:9px;right:9px}
- .controls{gap:10px}
- .move-button{width:78px;height:49px}
+ .controls{gap:8px;flex-wrap:wrap}
+ .move-button{width:56px;height:48px}
+ .controls>span{order:2;width:100%;text-align:center;margin-top:1px}
+ #moveDown{background:linear-gradient(#6b481b,#251507);border-color:#e4ac3e}
  .how-to{grid-template-columns:repeat(2,1fr)}
  .score-page-list .leader-row{grid-template-columns:37px minmax(0,1fr) auto}
  .score-page-list .leader-name{font-size:14px}
@@ -332,7 +334,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--gold-light);out
         <div class="submit-row"><input id="playerName" maxlength="18" placeholder="Jouw spelersnaam" autocomplete="nickname"><button class="gold-button" id="submitScore">SCORE OPSLAAN</button></div>
         <div class="status-message" id="submitStatus"></div>
       </div>
-      <p class="disclaimer" id="gameStatus">Druk op start en begin aan je afdaling. Je hebt drie levens.</p>
+      <p class="disclaimer" id="gameStatus">Druk op start en begin aan je afdaling. Gebruik ↓ om door een platform te stappen. Je hebt drie levens.</p>
     </section>
   </section>
 
@@ -656,7 +658,7 @@ function gameStep(timestamp){
  // New ledges are added below the screen; existing ledges never disappear.
  let bottom=game.platforms.reduce((max,platform)=>Math.max(max,platform.y),0);
  while(bottom<game.camera+h+700){bottom+=rand(94,122);addPlatform(bottom,w)}
- game.platforms=game.platforms.filter(platform=>platform.y>game.camera-260);
+ game.platforms=game.platforms.filter(platform=>platform.y>game.camera-260||platform.id===game.lastSafePlatform?.id);
  game.coins=game.coins.filter(coin=>coin.y>game.camera-120&&!coin.got);
 
  // A missed ledge costs one life and returns the player to the last safe ledge.
