@@ -1,12 +1,18 @@
-# De Goudmarsjan – Koersen & Gold Rush
+# De Goudmarsjan — Edelmetalen & Gold Rush
 
-A mobile-friendly single-page app showing indicative live gold/silver spot prices and a 30-second tap-the-gold mini-game.
+A responsive, installable mobile-first app for De Goudmarsjan.
 
-## Setup
-1. Create the table and public read/submit policies by running `supabase-setup.sql` in the Supabase SQL Editor.
-2. In `index.html`, replace `SUPABASE_URL` and `SUPABASE_ANON_KEY` with your Supabase project URL and publishable/anon key. Never use a service-role key in browser code.
-3. Deploy the repository with GitHub Pages or connect it to Vercel.
+## Features
+- Live indicative gold and silver spot prices, automatically refreshed once per minute.
+- Gold Rush: a playable descending mine game with coins, safe platforms, hazards, score, depth and three lives.
+- Public Top 10 leaderboard backed by Supabase.
+- Local player-name and sound preferences.
+- Offline app shell for the interface and bundled artwork.
 
-The game currently accepts client-submitted scores; this is suitable for a simple promotional leaderboard but is not cheat-proof. For a public competition with prizes, move score validation to a server-side function and add rate limiting.
+## Supabase
+The app uses the existing `goldrush_scores` table in the Goudmarsjan project. Run `supabase-setup.sql` for a fresh setup. The browser uses only the project's publishable key; never place a service-role key in the client.
 
-Gold/silver quotes are fetched from Gold-API and shown in USD per troy ounce. They are indicative spot prices, not guaranteed purchase prices.
+The public leaderboard accepts anonymous score submissions. As with the previous version, client-submitted scores are not cheat-proof. For a prize competition, score validation and rate limiting should be moved server-side.
+
+## Market data
+Gold and silver spot prices are retrieved in USD per troy ounce and converted to EUR per kilogram and gram. They are indicative international spot prices, not guaranteed purchase prices.
