@@ -438,19 +438,22 @@ async function loadPrices(){
  const ids=["homeUpdate","ratesUpdated"];
  ids.forEach(id=>$(id).textContent="Koersen ophalen…");
  try{
+  // Vraag beide metalen rechtstreeks in EUR op. Zo vermijden we een aparte,
+  // mogelijk verouderde USD/EUR-wisselkoers in de kilogramprijs.
   const responses=await Promise.all([
-   fetch("https://api.gold-api.com/price/XAU",{cache:"no-store"}),
-   fetch("https://api.gold-api.com/price/XAG",{cache:"no-store"}),
-   fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=EUR",{cache:"no-store"})
+   fetch("https://api.gold-api.com/price/XAU/EUR",{cache:"no-store"}),
+   fetch("https://api.gold-api.com/price/XAG/EUR",{cache:"no-store"})
   ]);
   if(responses.some(r=>!r.ok))throw new Error("Koersbron niet bereikbaar");
-  const [goldData,silverData,fxData]=await Promise.all(responses.map(r=>r.json()));
-  const goldUsd=Number(goldData.price??goldData.ask??goldData.value);
-  const silverUsd=Number(silverData.price??silverData.ask??silverData.value);
-  const usdToEur=Number(fxData.rates?.EUR);
-  if(![goldUsd,silverUsd,usdToEur].every(v=>Number.isFinite(v)&&v>0))throw new Error("Ongeldige koersgegevens");
-  const gold=goldUsd*usdToEur*OUNCE_TO_KG;
-  const silver=silverUsd*usdToEur*OUNCE_TO_KG;
+  const [goldData,silverData]=await Promise.all(responses.map(r=>r.json()));
+  const goldEurOunce=Number(goldData.price);
+  const silverEurOunce=Number(silverData.price);
+  if(![goldEurOunce,silverEurOunce].every(v=>Number.isFinite(v)&&v>0))throw new Error("Ongeldige EUR-koersgegevens");
+  // API noteert spotprijzen per troy ounce; omrekening naar kilogram.
+  const gold=goldEurOunce*OUNCE_TO_KG;
+  const silver=silverEurOunce*OUNCE_TO_KG;
+  const sourceTimes=[goldData.updatedAt,silverData.updatedAt].filter(Boolean).map(v=>Date.parse(v)).filter(Number.isFinite);
+  if(sourceTimes.length&&Date.now()-Math.min(...sourceTimes)>5*60*1000)throw new Error("De ontvangen marktkoers is ouder dan 5 minuten");
   const prevGold=getPrevious("gold"),prevSilver=getPrevious("silver");
   renderPrice(gold,"goldKgHome","goldGramHome");
   renderPrice(silver,"silverKgHome","silverGramHome");
@@ -462,10 +465,11 @@ async function loadPrices(){
   localStorage.setItem("gm_quote_cache",JSON.stringify(quoteCache));
   const stamp=new Date().toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"});
   $("homeUpdate").innerHTML="Vernieuwd<br>"+stamp;
-  $("ratesUpdated").textContent="Laatst bijgewerkt: "+stamp+" · Automatische vernieuwing elke 60 seconden.";
+  $("ratesUpdated").textContent="Live spotkoers in EUR · Bron bijgewerkt: "+(sourceTimes.length?new Date(Math.min(...sourceTimes)).toLocaleTimeString("nl-BE",{hour:"2-digit",minute:"2-digit"}):stamp)+" · App ververst elke 60 seconden.";
  }catch(error){
+  console.warn("Koersen konden niet worden vernieuwd:",error);
   $("homeUpdate").textContent="Tijdelijk offline";
-  $("ratesUpdated").textContent="De actuele koersen zijn tijdelijk niet beschikbaar. De app probeert automatisch opnieuw.";
+  $("ratesUpdated").textContent="Actuele koersen tijdelijk niet beschikbaar. Laatst bewaarde koers wordt niet als live getoond; de app probeert automatisch opnieuw.";
   if(!quoteCache.gold||!quoteCache.silver){$("goldKgHome").textContent="—";$("silverKgHome").textContent="—";$("goldKgRates").textContent="—";$("silverKgRates").textContent="—"}
  }
 }
